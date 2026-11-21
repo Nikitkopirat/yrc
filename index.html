@@ -1,506 +1,74 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>YRCOIN | Ярославль</title>
-    <script src="https://telegram.org"></script>
-    <style>
-        :root {
-            --bg: #090a0f;
-            --card: #151824;
-            --border: rgba(255, 204, 51, 0.22);
-            --gold: #ffcc33;
-            --gold-dark: #ff9900;
-            --emerald: #00e676;
-            --crimson: #ff3b5c;
-            --text: #ffffff;
-            --muted: #9499b0;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body {
-            background: radial-gradient(circle at top, #1d2138 0%, var(--bg) 70%);
-            color: var(--text);
-            padding: 12px 12px 88px;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 100vh;
-        }
-        .top-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-        .stat-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 8px 6px;
-            text-align: center;
-        }
-        .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
-        .stat-val { font-size: 13px; font-weight: 800; color: var(--gold); margin-top: 2px; }
-        .balance-wrap { text-align: center; margin: 6px 0 12px; }
-        .balance-amount {
-            font-size: 42px;
-            font-weight: 900;
-            background: linear-gradient(180deg, #fff6c2 0%, var(--gold) 55%, var(--gold-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 18px rgba(255, 185, 0, 0.35));
-        }
-        .rank-pill {
-            display: inline-block;
-            font-size: 12px;
-            background: rgba(255,255,255,0.06);
-            padding: 4px 12px;
-            border-radius: 20px;
-            color: #e0e4f5;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        .nav {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            display: flex;
-            gap: 4px;
-            background: rgba(19, 22, 34, 0.96);
-            backdrop-filter: blur(12px);
-            padding: 6px;
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            z-index: 100;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.65);
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 9px 2px;
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: 0.2s;
-        }
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000;
-            box-shadow: 0 4px 12px rgba(255, 175, 0, 0.35);
-        }
-        .section { display: none; animation: fadeIn 0.2s ease; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-        .card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-        }
-        .tap-zone { display: flex; flex-direction: column; align-items: center; padding: 14px 0; }
-        .coin-btn {
-            width: 195px;
-            height: 195px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ffe680, #d98a00 70%, #7a4700 100%);
-            border: 6px solid #fff2a6;
-            box-shadow: 0 0 45px rgba(255, 190, 0, 0.45), inset 0 0 22px rgba(0,0,0,0.45);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.07s;
-        }
-        .coin-btn:active { transform: scale(0.93); }
-        .coin-emoji { font-size: 76px; line-height: 1; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.45)); }
-        .coin-label { font-size: 13px; font-weight: 900; color: #3d2200; letter-spacing: 1.5px; margin-top: 4px; }
-        .energy-wrap { width: 100%; max-width: 280px; margin-top: 18px; }
-        .energy-top { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--gold); }
-        .energy-track { width: 100%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
-        .energy-fill { height: 100%; width: 100%; background: linear-gradient(90deg, var(--emerald), var(--gold)); transition: width 0.2s; }
-        .float-num {
-            position: fixed;
-            font-size: 24px;
-            font-weight: 900;
-            color: var(--gold);
-            pointer-events: none;
-            animation: floatUp 0.75s ease-out forwards;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.85);
-            z-index: 999;
-        }
-        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-70px) scale(1.2); } }
-                    .upgrade-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .upg-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .upg-icon { font-size: 28px; margin-bottom: 6px; }
-        .upg-title { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
-        .upg-desc { font-size: 11px; color: var(--emerald); font-weight: 700; margin-bottom: 8px; }
-        .upg-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.07); padding-top: 8px; }
-        .upg-lvl { font-size: 11px; color: var(--muted); font-weight: 700; }
-        .btn {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #000;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 12px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .btn-full { width: 100%; padding: 13px; font-size: 14px; margin-top: 8px; }
-        .btn:disabled { background: #262938; color: var(--muted); cursor: default; }
-        .wheel-box { position: relative; width: 270px; height: 270px; margin: 10px auto 14px; }
-        .wheel-pin {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 13px solid transparent;
-            border-right: 13px solid transparent;
-            border-top: 22px solid var(--crimson);
-            z-index: 10;
-        }
-        canvas#wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 5px solid var(--gold);
-            box-shadow: 0 0 28px rgba(255, 204, 51, 0.35);
-            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-        }
-        .row-between { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-        .quiz-q { font-size: 15px; font-weight: 700; margin-bottom: 12px; line-height: 1.35; }
-        .option-btn {
-            width: 100%;
-            text-align: left;
-            background: #1e2233;
-            color: var(--text);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 11px;
-            margin-bottom: 7px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .option-btn.correct { background: rgba(0, 230, 118, 0.2); border-color: var(--emerald); color: var(--emerald); }
-        .option-btn.wrong { background: rgba(255, 59, 92, 0.2); border-color: var(--crimson); color: var(--crimson); }
-        .sec-title { font-size: 15px; font-weight: 800; color: var(--gold); margin: 6px 0 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>YRCOIN</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif}
+body{background:#0b0d17;color:#fff;padding:14px 14px 80px;user-select:none}
+.bal{text-align:center;font-size:42px;font-weight:900;color:#ffcc33;margin:10px 0}
+.rank{text-align:center;font-size:13px;color:#aaa;margin-bottom:14px}
+.card{background:#161a2b;border:1px solid #332b14;border-radius:16px;padding:14px;margin-bottom:10px}
+.coin{width:180px;height:180px;border-radius:50%;background:radial-gradient(#ffe066,#cc7a00);border:5px solid #fff099;margin:10px auto;display:flex;align-items:center;justify-content:center;font-size:74px;cursor:pointer}
+.coin:active{transform:scale(0.92)}
+.nav{position:fixed;bottom:10px;left:10px;right:10px;display:flex;gap:5px;background:#161a2b;padding:6px;border-radius:14px;border:1px solid #332b14}
+.tab{flex:1;padding:10px 4px;border:none;background:transparent;color:#999;font-weight:700;border-radius:10px;font-size:12px}
+.tab.on{background:#ffcc33;color:#000}
+.sec{display:none}.sec.on{display:block}
+.btn{background:#ffcc33;color:#000;border:none;padding:10px 14px;border-radius:10px;font-weight:800;font-size:13px;width:100%;margin-top:6px}
+.btn:disabled{background:#2a2e42;color:#777}
+canvas{display:block;margin:10px auto;border-radius:50%;border:4px solid #ffcc33;transition:transform 4s cubic-bezier(.17,.67,.12,.99)}
+</style>
 </head>
 <body>
-    <div class="top-stats">
-        <div class="stat-box">
-            <div class="stat-label">За тап</div>
-            <div class="stat-val">+<span id="stat-tap">1</span> 🪓</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-label">Доход в час</div>
-            <div class="stat-val">+<span id="stat-pph">0</span> 🪓</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-label">Энергия</div>
-            <div class="stat-val"><span id="stat-maxe">100</span> ⚡</div>
-        </div>
-    </div>
+<div class="bal"><span id="sc">0</span> 🪓</div>
+<div class="rank">Ранг: <b id="rk" style="color:#ffcc33">Турист на Стрелке</b> | Энергия: <b id="en">100</b>⚡</div>
 
-    <div class="balance-wrap">
-        <div class="balance-amount"><span id="score">0</span> 🪓</div>
-        <div class="rank-pill">🐻 <b id="rank-name" style="color:var(--gold)">Турист на Стрелке</b></div>
-    </div>
+<div id="s1" class="sec on">
+<div class="card"><div class="coin" onclick="tap()">🐻</div><p style="text-align:center;font-size:12px;color:#aaa">Жми на медведя (+<span id="pw">1</span> 🪓 за тап)</p></div>
+</div>
 
-    <div id="tap" class="section active">
-        <div class="card tap-zone">
-            <div class="coin-btn" id="coin-btn">
-                <div class="coin-emoji">🐻</div>
-                <div class="coin-label">YRCOIN</div>
-            </div>
-            <div class="energy-wrap">
-                <div class="energy-top">
-                    <span>⚡ Энергия</span>
-                    <span><span id="energy">100</span> / <span id="max-energy">100</span></span>
-                </div>
-                <div class="energy-track"><div class="energy-fill" id="energy-fill"></div></div>
-            </div>
-        </div>
-    </div>
+<div id="s2" class="sec">
+<div class="card" style="text-align:center"><b>🎡 Колесо Районов Ярославля</b><canvas id="wh" width="240" height="240"></canvas><button class="btn" id="spb" onclick="spin()">Крутить (100 🪓 или 1 раз бесплатно)</button></div>
+</div>
 
-    <div id="mine" class="section">
-        <div class="sec-title">⛏ Прокачка и бизнес в Ярославле</div>
-        <div class="upgrade-grid" id="upgrades-list"></div>
-    </div>
+<div id="s3" class="sec">
+<div class="card"><b>🪓 Острая Секира (+1 за тап)</b><button class="btn" id="u1" onclick="buy(1)">Купить (50 🪓)</button></div>
+<div class="card"><b>📢 Подписаться на @yarcoin76</b><button class="btn" id="t1" onclick="task('t1',150)">Забрать +150 🪓</button></div>
+<div class="card"><b>🔥 Реакция на пост в канале</b><button class="btn" id="t2" onclick="task('t2',100)">Забрать +100 🪓</button></div>
+</div>
 
-    <div id="wheel-sec" class="section">
-        <div class="card" style="text-align:center;">
-            <h3 style="color:var(--gold); margin-bottom:4px;">🎡 Колесо Районов Ярославля</h3>
-            <p style="font-size:12px; color:var(--muted);" id="wheel-status">1 бесплатный прокрут в день!</p>
-            <div class="wheel-box">
-                <div class="wheel-pin"></div>
-                <canvas id="wheel" width="300" height="300"></canvas>
-            </div>
-            <button type="button" class="btn btn-full" id="spin-btn">Крутить бесплатно 🎲</button>
-        </div>
-    </div>
+<div class="nav">
+<button class="tab on" onclick="go('s1',this)">🐻 Тап</button>
+<button class="tab" onclick="go('s2',this)">🎡 Колесо</button>
+<button class="tab" onclick="go('s3',this)">⚡ Прокачка</button>
+</div>
 
-    <div id="quests" class="section">
-        <div class="sec-title">⚡ Задания</div>
-        <div class="card row-between">
-            <div><h4 style="font-size:14px;">Подписаться на YRCOIN</h4><p style="font-size:12px; color:var(--emerald); font-weight:700;">+150 Секир 🪓</p></div>
-            <button type="button" class="btn" id="btn-t1">Выполнить</button>
-        </div>
-        <div class="card row-between">
-            <div><h4 style="font-size:14px;">Реакция на пост в канале</h4><p style="font-size:12px; color:var(--emerald); font-weight:700;">+100 Секир 🪓</p></div>
-            <button type="button" class="btn" id="btn-t2">Перейти</button>
-        </div>
-        <div class="card row-between">
-            <div><h4 style="font-size:14px;">Ежедневный визит на Стрелку</h4><p style="font-size:12px; color:var(--emerald); font-weight:700;">+75 Секир 🪓</p></div>
-            <button type="button" class="btn" id="btn-daily">Забрать</button>
-        </div>
+<script>
+let d=JSON.parse(localStorage.getItem('yrc3')||'{"s":0,"p":1,"e":100,"t":{}}');
+const secs=[{n:"Центр",v:250,c:"#f5b942"},{n:"Брагино",v:100,c:"#2b5876"},{n:"Заволга",v:150,c:"#00b09b"},{n:"Перекоп",v:80,c:"#8e44ad"},{n:"Фрунзе",v:120,c:"#e67e22"},{n:"Стрелка",v:300,c:"#00e676"}];
+function save(){localStorage.setItem('yrc3',JSON.stringify(d));ui();}
+function ui(){
+document.getElementById('sc').innerText=d.s;
+document.getElementById('pw').innerText=d.p;
+document.getElementById('en').innerText=d.e;
+document.getElementById('rk').innerText=d.s>=1000?"Легенда Ярославля 🐻":d.s>=300?"Ярославский Купец":"Турист на Стрелке";
+if(d.t.t1){let b=document.getElementById('t1');b.innerText="Готово ✓";b.disabled=true;}
+if(d.t.t2){let b=document.getElementById('t2');b.innerText="Готово ✓";b.disabled=true;}
+}
+function go(id,el){document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.getElementById(id).classList.add('on');el.classList.add('on');}
+function tap(){if(d.e<=0)return;d.e--;d.s+=d.p;save();}
+setInterval(()=>{if(d.e<100){d.e++;save();}},1500);
+function buy(n){if(d.s<50)return alert("Нужно 50 🪓");d.s-=50;d.p+=1;save();}
+function task(k,v){if(d.t[k])return;window.open('https://'+'t.me/'+'yarcoin76','_blank');d.t[k]=1;d.s+=v;save();}
+const c=document.getElementById('wh').getContext('2d');let deg=0,sp=0;
+secs.forEach((x,i)=>{let a=i*Math.PI/3;c.beginPath();c.fillStyle=x.c;c.moveTo(120,120);c.arc(120,120,115,a,a+Math.PI/3);c.fill();c.save();c.translate(120,120);c.rotate(a+Math.PI/6);c.fillStyle="#fff";c.font="bold 12px sans-serif";c.fillText(x.n+" +"+x.v,35,4);c.restore();});
+function spin(){if(sp)return;let td=new Date().toDateString();if(d.sp===td){if(d.s<100)return alert("Нужно 100 🪓");d.s-=100;}else d.sp=td;sp=1;let w=Math.floor(Math.random()*6);deg+=1800+(270-(w*60+30))-(deg%360);document.getElementById('wh').style.transform="rotate("+deg+"deg)";setTimeout(()=>{sp=0;d.s+=secs[w].v;save();alert("Район "+secs[w].n+": +"+secs[w].v+" 🪓!");},4100);}
+ui();
+</script>
+</body>
+</html>
 
-        <div class="sec-title" style="margin-top:14px;">🧠 Викторина Ярославля</div>
-        <div class="card" id="quiz-box">
-            <div style="font-size:11px; color:var(--gold); margin-bottom:6px; font-weight:700;" id="q-progress">Вопрос 1 из 8</div>
-            <div class="quiz-q" id="q-text">Загрузка...</div>
-            <div id="q-options"></div>
-        </div>
-    </div>
-
-    <div id="friends" class="section">
-        <div class="card" style="text-align:center;">
-            <div style="font-size:42px; margin-bottom:6px;">🤝</div>
-            <h3 style="color:var(--gold); margin-bottom:6px;">Приглашай друзей из Ярославля!</h3>
-            <p style="font-size:13px; color:#cfd3e6; margin-bottom:14px;">Отправь ссылку другу — он запустит бота, а ты сразу заберёшь бонус за приглашение.</p>
-            <button type="button" class="btn btn-full" id="invite-btn">Скопировать ссылку (+250 🪓)</button>
-        </div>
-        <div class="card">
-            <h4 style="color:var(--gold); margin-bottom:6px;">🐻 О проекте YRCOIN</h4>
-            <p style="font-size:13px; color:#cfd3e6; line-height:1.45;">Первый сувенирный комьюнити-токен Ярославля на блокчейне TON. Качай карточки, крути Колесо Районов и попадай в еженедельный топ за наградами Telegram Stars ⭐!</p>
-        </div>
-    </div>
-
-    <div class="nav">
-        <button type="button" class="tab-btn active" data-tab="tap">🐻 Тап</button>
-        <button type="button" class="tab-btn" data-tab="mine">⛏ Карты</button>
-        <button type="button" class="tab-btn" data-tab="wheel-sec">🎡 Колесо</button>
-        <button type="button" class="tab-btn" data-tab="quests">⚡ Квесты</button>
-        <button type="button" class="tab-btn" data-tab="friends">👥 Друзья</button>
-    </div>
-        <script>
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.expand();
-        }
-
-        const channelUrl = 'https://' + 't.me/' + 'yarcoin76';
-        const botShareUrl = 'https://' + 't.me/' + 'YRCYaroslavl_bot';
-
-        let state = JSON.parse(localStorage.getItem('yrc_v2') || 'null') || {
-            score: 0,
-            tapPower: 1,
-            maxEnergy: 100,
-            energy: 100,
-            pph: 0,
-            lastTime: Date.now(),
-            upg: { u1: 0, u2: 0, u3: 0, u4: 0, u5: 0, u6: 0 },
-            tasks: {},
-            qIndex: 0
-        };
-
-        const now = Date.now();
-        const diffSec = Math.floor((now - state.lastTime) / 1000);
-        if (diffSec > 5 && state.pph > 0) {
-            const earnedOffline = Math.min(Math.floor((state.pph / 3600) * diffSec), state.pph * 3);
-            if (earnedOffline > 0) {
-                state.score += earnedOffline;
-                setTimeout(() => alert(`🐻 Пока тебя не было, бизнес в Ярославле принёс +${earnedOffline} Секир 🪓!`), 500);
-            }
-        }
-        state.energy = Math.min(state.maxEnergy, state.energy + Math.floor(diffSec / 2));
-        state.lastTime = now;
-
-        function saveState() {
-            state.lastTime = Date.now();
-            localStorage.setItem('yrc_v2', JSON.stringify(state));
-        }
-
-        const upgradesData = [
-            { id: 'u1', icon: '🪓', name: 'Острая Секира', desc: '+1 за тап', baseCost: 50, type: 'tap', val: 1 },
-            { id: 'u2', icon: '⚡', name: 'Квас с Волги', desc: '+50 энергии', baseCost: 60, type: 'energy', val: 50 },
-            { id: 'u3', icon: '🥙', name: 'Шаурма на Стрелке', desc: '+120 / час', baseCost: 100, type: 'pph', val: 120 },
-            { id: 'u4', icon: '🚢', name: 'Речной трамвай', desc: '+300 / час', baseCost: 250, type: 'pph', val: 300 },
-            { id: 'u5', icon: '🏒', name: 'Фан-сектор Арены', desc: '+650 / час', baseCost: 550, type: 'pph', val: 650 },
-            { id: 'u6', icon: '⛏️', name: 'Ферма в Брагино', desc: '+1500 / час', baseCost: 1200, type: 'pph', val: 1500 }
-        ];
-
-        const sectors = [
-            { name: "Центр", pts: 250, color: "#f5b942" },
-            { name: "Брагино", pts: 100, color: "#2b5876" },
-            { name: "Заволга", pts: 150, color: "#00b09b" },
-            { name: "Перекоп", pts: 80, color: "#8e44ad" },
-            { name: "Фрунзе", pts: 120, color: "#e67e22" },
-            { name: "Нефтестрой", pts: 90, color: "#c0392b" },
-            { name: "Пятерка", pts: 110, color: "#2980b9" },
-            { name: "Стрелка", pts: 300, color: "#00e676" }
-        ];
-
-        const questions = [
-            { q: "Какое животное изображено на гербе Ярославля и монете YRCOIN?", opts: ["Волк", "Медведь с секирой", "Лев", "Лось"], ans: 1 },
-            { q: "Как называется место слияния Волги и Которосли?", opts: ["Стрелка", "Мыс", "Пристань", "Коса"], ans: 0 },
-            { q: "На какой бумажной купюре изображён Ярославль?", opts: ["500 рублей", "1000 рублей", "2000 рублей", "5000 рублей"], ans: 1 },
-            { q: "Какой памятник стоит на Богоявленской площади?", opts: ["Юрию Долгорукому", "Петру Первому", "Ярославу Мудрому", "Александру Невскому"], ans: 2 },
-            { q: "На каком блокчейне запущен токен YRCOIN?", opts: ["TON", "Solana", "Bitcoin", "Dogecoin"], ans: 0 },
-            { q: "В каком году был основан Ярославль?", opts: ["988 год", "1010 год", "1147 год", "1238 год"], ans: 1 },
-            { q: "Какой театр в Ярославле является первым русским профессиональным?", opts: ["Театр им. Волкова", "Большой театр", "МХАТ", "Ленком"], ans: 0 },
-            { q: "Как называется главная хоккейная команда Ярославля?", opts: ["Спартак", "Локомотив", "Динамо", "Торпедо"], ans: 1 }
-        ];
-
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.getElementById(this.dataset.tab).classList.add('active');
-                this.classList.add('active');
-            });
-        });
-
-        function updateUI() {
-            document.getElementById('score').innerText = Math.floor(state.score);
-            document.getElementById('stat-tap').innerText = state.tapPower;
-            document.getElementById('stat-pph').innerText = state.pph;
-            document.getElementById('stat-maxe').innerText = state.maxEnergy;
-            document.getElementById('energy').innerText = state.energy;
-            document.getElementById('max-energy').innerText = state.maxEnergy;
-            document.getElementById('energy-fill').style.width = ((state.energy / state.maxEnergy) * 100) + '%';
-
-            let rank = "Турист на Стрелке";
-            if (state.score >= 250) rank = "Житель Брагино";
-            if (state.score >= 700) rank = "Покоритель Заволги";
-            if (state.score >= 1500) rank = "Ярославский Купец";
-            if (state.score >= 3500) rank = "Легендарный Медведь 🐻";
-            document.getElementById('rank-name').innerText = rank;
-
-            for (let key in state.tasks) {
-                let btn = document.getElementById('btn-' + key);
-                if (btn) { btn.innerText = "Готово ✓"; btn.disabled = true; }
-            }
-            const today = new Date().toDateString();
-            if (localStorage.getItem('yrc_daily2') === today) {
-                let dBtn = document.getElementById('btn-daily');
-                dBtn.innerText = "Завтра"; dBtn.disabled = true;
-            }
-            const spinBtn = document.getElementById('spin-btn');
-            if (localStorage.getItem('yrc_spin2') === today) {
-                spinBtn.innerText = "Крутить за 100 🪓";
-                document.getElementById('wheel-status').innerText = "Бесплатный спин использован. Доп. спин — 100 🪓";
-            }
-            renderUpgrades();
-        }
-
-        function renderUpgrades() {
-            const box = document.getElementById('upgrades-list');
-            box.innerHTML = '';
-            upgradesData.forEach(u => {
-                const lvl = state.upg[u.id] || 0;
-                const cost = Math.floor(u.baseCost * Math.pow(1.6, lvl));
-                const div = document.createElement('div');
-                div.className = 'upg-card';
-                div.innerHTML = `
-                    <div>
-                        <div class="upg-icon">${u.icon}</div>
-                        <div class="upg-title">${u.name}</div>
-                        <div class="upg-desc">${u.desc}</div>
-                    </div>
-                    <div class="upg-foot">
-                        <span class="upg-lvl">Ур. ${lvl}</span>
-                        <button type="button" class="btn" ${state.score < cost ? 'disabled' : ''}>${cost} 🪓</button>
-                    </div>
-                `;
-                div.querySelector('button').addEventListener('click', () => {
-                    if (state.score < cost) return;
-                    state.score -= cost;
-                    state.upg[u.id] = lvl + 1;
-                    if (u.type === 'tap') state.tapPower += u.val;
-                    if (u.type === 'energy') { state.maxEnergy += u.val; state.energy += u.val; }
-                    if (u.type === 'pph') state.pph += u.val;
-                    saveState();
-                    updateUI();
-                });
-                box.appendChild(div);
-            });
-        }
-
-        document.getElementById('coin-btn').addEventListener('click', function(e) {
-            if (state.energy < state.tapPower) return;
-            state.energy -= state.tapPower;
-            state.score += state.tapPower;
-            saveState();
-            updateUI();
-
-            const el = document.createElement('div');
-            el.className = 'float-num';
-            el.innerText = `+${state.tapPower} 🪓`;
-            el.style.left = (e.clientX || window.innerWidth / 2) + 'px';
-            el.style.top = (e.clientY || 240) + 'px';
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 750);
-        });
-
-        setInterval(() => {
-            let changed = false;
-            if (state.energy < state.maxEnergy) {
-                state.energy = Math.min(state.maxEnergy, state.energy + 2);
-                changed = true;
-            }
-            if (state.pph > 0) {
-                state.score += state.pph / 3600;
-                changed = true;
-            }
-            if (changed) { saveState(); updateUI(); }
-        }, 1000);
-
-        const canvas = document.getElementById('wheel');
-        const ctx = canvas.getContext('2d');
-        let currentDeg = 0;
-        let isSpinning = false;
-
-        function drawWheel() {
-            const arc = (2 * Math.PI) / sectors.length;
-            sectors.forEach((sec, i) => {
-                const angle = i * arc;
-                ctx.beginPath();
-                ctx.fillStyle = sec.color;
-                ctx.moveTo(150, 150);
-                ctx.arc(150, 150, 145, angle, angle + arc);
-                ctx.fill();
-                ctx.save();
-                ctx.translate(150, 150);
-                ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 13px sans-serif";
-                ctx.fillText(sec.name + " +" + sec.pts, 132, 5);
-                ctx.restore();
-            });
-        }
-        drawWheel();
-
-        document.getElementById('spin-btn').addEventListener('click', function() {
-            if (isSpinning) return;
-            const today = new Date().toDateString();
-            const isFree = localStorage.getItem('yrc_spin2') !== today;
-            if (!isFree && state.score < 100) {
-            
 
         
