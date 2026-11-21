@@ -17,39 +17,31 @@
             --red: #e74c3c;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--bg); color: var(--text); padding: 16px; padding-bottom: 80px; user-select: none; }
-        
+        body { background-color: var(--bg); color: var(--text); padding: 16px; padding-bottom: 80px; user-select: none; -webkit-tap-highlight-color: transparent; }
         .header { text-align: center; padding: 12px 0 20px; }
         .badge { display: inline-block; background: rgba(245, 185, 66, 0.15); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 8px; border: 1px solid rgba(245, 185, 66, 0.3); }
         .balance-title { color: var(--muted); font-size: 14px; }
         .balance-amount { font-size: 42px; font-weight: 800; color: var(--gold); margin: 4px 0; text-shadow: 0 0 20px rgba(245, 185, 66, 0.3); }
         .rank { font-size: 14px; color: #d0d0d8; background: var(--card); display: inline-block; padding: 6px 14px; border-radius: 12px; margin-top: 6px; }
-
         .tabs { display: flex; gap: 8px; margin-bottom: 18px; background: var(--card); padding: 5px; border-radius: 14px; }
         .tab-btn { flex: 1; padding: 10px; border: none; background: transparent; color: var(--muted); font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 14px; }
         .tab-btn.active { background: var(--gold); color: #000; }
-
         .section { display: none; }
         .section.active { display: block; }
-
         .card { background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
         .task-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
         .task-info h3 { font-size: 15px; margin-bottom: 4px; }
         .task-info p { font-size: 13px; color: var(--gold); font-weight: 600; }
-        
         .btn { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000; border: none; padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
         .btn:disabled { background: #2c2c35; color: var(--muted); cursor: default; }
-
         .quiz-q { font-size: 17px; font-weight: 700; margin-bottom: 14px; line-height: 1.4; }
         .option-btn { width: 100%; text-align: left; background: #23232c; color: var(--text); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 12px; margin-bottom: 8px; font-size: 14px; cursor: pointer; }
         .option-btn.correct { background: rgba(46, 204, 113, 0.2); border-color: var(--green); color: var(--green); }
         .option-btn.wrong { background: rgba(231, 76, 60, 0.2); border-color: var(--red); color: var(--red); }
-
         .info-text { font-size: 14px; line-height: 1.5; color: #ccc; margin-bottom: 10px; }
     </style>
 </head>
 <body>
-
     <div class="header">
         <div class="badge">🐻 YRCOIN • Ярославль на блокчейне</div>
         <div class="balance-title">Твой баланс</div>
@@ -58,9 +50,9 @@
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('tasks', this)">Задания</button>
-        <button class="tab-btn" onclick="switchTab('quiz', this)">Викторина</button>
-        <button class="tab-btn" onclick="switchTab('about', this)">О проекте</button>
+        <button type="button" class="tab-btn active" id="tab-tasks">Задания</button>
+        <button type="button" class="tab-btn" id="tab-quiz">Викторина</button>
+        <button type="button" class="tab-btn" id="tab-about">О проекте</button>
     </div>
 
     <div id="tasks" class="section active">
@@ -69,7 +61,7 @@
                 <h3>Подписаться на канал YaroslavlCoin</h3>
                 <p>+100 Секир 🪓</p>
             </div>
-            <button class="btn" id="btn-t1" onclick="doTask('t1', 100, 'https://t.me')">Выполнить</button>
+            <button type="button" class="btn" id="btn-t1">Выполнить</button>
         </div>
 
         <div class="card task-row">
@@ -77,7 +69,7 @@
                 <h3>Поставить реакцию на пост в канале</h3>
                 <p>+150 Секир 🪓</p>
             </div>
-            <button class="btn" id="btn-t2" onclick="doTask('t2', 150, 'https://t.me')">Перейти</button>
+            <button type="button" class="btn" id="btn-t2">Перейти</button>
         </div>
 
         <div class="card task-row">
@@ -85,7 +77,7 @@
                 <h3>Ежедневный визит на Стрелку</h3>
                 <p>+50 Секир 🪓</p>
             </div>
-            <button class="btn" id="btn-daily" onclick="claimDaily()">Забрать</button>
+            <button type="button" class="btn" id="btn-daily">Забрать</button>
         </div>
     </div>
 
@@ -106,8 +98,9 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.expand();
+        }
 
         let score = parseInt(localStorage.getItem('yrc_score') || '0');
         let doneTasks = JSON.parse(localStorage.getItem('yrc_tasks') || '{}');
@@ -127,6 +120,10 @@
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
         }
+
+        document.getElementById('tab-tasks').addEventListener('click', function() { switchTab('tasks', this); });
+        document.getElementById('tab-quiz').addEventListener('click', function() { switchTab('quiz', this); });
+        document.getElementById('tab-about').addEventListener('click', function() { switchTab('about', this); });
 
         function updateUI() {
             document.getElementById('score').innerText = score;
@@ -155,39 +152,28 @@
 
         function doTask(id, pts, url) {
             if (doneTasks[id]) return;
-            if (url) window.open(url, '_blank');
-            setTimeout(() => {
-                doneTasks[id] = true;
-                localStorage.setItem('yrc_tasks', JSON.stringify(doneTasks));
-                addScore(pts);
-            }, 1500);
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+                window.Telegram.WebApp.openTelegramLink(url);
+            } else {
+                window.open(url, '_blank');
+            }
+            doneTasks[id] = true;
+            localStorage.setItem('yrc_tasks', JSON.stringify(doneTasks));
+            addScore(pts);
         }
 
-        function claimDaily() {
+        document.getElementById('btn-t1').addEventListener('click', function() { doTask('t1', 100, 'https://t.me'); });
+        document.getElementById('btn-t2').addEventListener('click', function() { doTask('t2', 150, 'https://t.me'); });
+        document.getElementById('btn-daily').addEventListener('click', function() {
             const today = new Date().toDateString();
             if (localStorage.getItem('yrc_daily') === today) return;
             localStorage.setItem('yrc_daily', today);
             addScore(50);
-        }
+        });
 
         function renderQuiz() {
             const box = document.getElementById('quiz-box');
             if (qIndex >= questions.length) {
-                box.innerHTML = `<h3 style="color:var(--gold); margin-bottom:8px;">🎉 Все вопросы пройдены!</h3><p class="info-text">Ты отлично знаешь Ярославль и проект YRCOIN. Жди новых квестов в следующем обновлении!</p>`;
-                return;
-            }
-            const item = questions[qIndex];
-            document.getElementById('q-progress').innerText = `Вопрос ${qIndex + 1} из ${questions.length} (+50 🪓)`;
-            document.getElementById('q-text').innerText = item.q;
-            const optsDiv = document.getElementById('q-options');
-            optsDiv.innerHTML = '';
-            item.opts.forEach((opt, idx) => {
-                const b = document.createElement('button');
-                b.className = 'option-btn';
-                b.innerText = opt;
-                b.onclick = () => checkAnswer(idx, item.ans, b);
-                optsDiv.appendChild(b);
-            });
-        }
+                box.innerHTML = '<h3 style="color:var(--gold); margin-bottom:8px;">🎉 Все вопросы пройдены!</h3><p class="info-text">Ты отлично знаешь Ярославль и проект YRCOIN. Жди новых квестов в следующем обновлении!</p>';
 
-  
+            
