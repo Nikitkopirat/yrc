@@ -2,84 +2,100 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>YRCOIN</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:radial-gradient(circle at 50% 12%,#2d1e4a 0%,#0f1224 55%,#070811 100%);color:#fff;padding:10px 10px 82px;user-select:none;min-height:100vh;overflow-x:hidden}
-.bg{position:fixed;top:44%;left:50%;transform:translate(-50%,-50%);font-size:250px;opacity:.06;pointer-events:none}
-.w{position:relative;z-index:1}
-.tb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px}
-.sb{background:rgba(24,28,48,.88);border:1px solid rgba(255,204,51,.25);border-radius:11px;padding:6px;text-align:center}
-.sb span{font-size:10px;color:#9aa0bd;display:block;font-weight:700}.sb b{font-size:13px;color:#ffcc33}
-.bal{text-align:center;font-size:42px;font-weight:900;background:linear-gradient(180deg,#fff7c2,#ffcc33 50%,#ff8800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:2px 0}
-.rk{text-align:center;font-size:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,204,51,.25);padding:4px 12px;border-radius:20px;display:table;margin:0 auto 10px}
-.c{background:rgba(24,28,48,.92);border:1px solid rgba(255,204,51,.26);border-radius:16px;padding:12px;margin-bottom:8px}
-.coin{width:175px;height:175px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff099,#ffaa00 65%,#8a4200);border:6px solid #fff5b8;box-shadow:0 0 38px rgba(255,180,0,.5);margin:8px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.08s}
+body{background:radial-gradient(circle at 50% 15%,#2b1f47 0%,#101324 55%,#070811 100%);color:#fff;padding:12px 12px 84px;user-select:none;min-height:100vh;overflow-x:hidden}
+.bg-bear{position:fixed;top:42%;left:50%;transform:translate(-50%,-50%);font-size:270px;opacity:0.06;pointer-events:none;z-index:0;filter:drop-shadow(0 0 30px #ffcc33)}
+.wrap{position:relative;z-index:1}
+.bal{text-align:center;font-size:44px;font-weight:900;background:linear-gradient(180deg,#fff7c2,#ffcc33 50%,#ff8800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(255,190,0,.45));margin:6px 0}
+.rank{text-align:center;font-size:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,204,51,.25);padding:5px 12px;border-radius:20px;display:table;margin:0 auto 12px}
+.card{background:rgba(24,28,48,.88);backdrop-filter:blur(8px);border:1px solid rgba(255,204,51,.28);border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.coin{width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff099,#ffaa00 65%,#8a4200);border:6px solid #fff5b8;box-shadow:0 0 45px rgba(255,180,0,.55),inset 0 0 20px rgba(0,0,0,.4);margin:10px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.08s}
 .coin:active{transform:scale(.92)}
-.nav{position:fixed;bottom:8px;left:8px;right:8px;display:flex;gap:3px;background:#101322;padding:5px;border-radius:14px;border:1px solid rgba(255,204,51,.3);z-index:99}
-.tab{flex:1;padding:9px 1px;border:none;background:transparent;color:#9aa0bd;font-weight:800;border-radius:10px;font-size:10.5px}
-.tab.on{background:linear-gradient(135deg,#ffcc33,#ff8800);color:#000}
+.nav{position:fixed;bottom:10px;left:10px;right:10px;display:flex;gap:4px;background:rgba(18,21,38,.96);padding:6px;border-radius:16px;border:1px solid rgba(255,204,51,.3);z-index:99}
+.tab{flex:1;padding:9px 2px;border:none;background:transparent;color:#9aa0bd;font-weight:800;border-radius:11px;font-size:11px}
+.tab.on{background:linear-gradient(135deg,#ffcc33,#ff8800);color:#000;box-shadow:0 4px 12px rgba(255,160,0,.4)}
 .sec{display:none}.sec.on{display:block}
-.btn{background:linear-gradient(135deg,#ffcc33,#ff9500);color:#000;border:none;padding:10px;border-radius:10px;font-weight:800;font-size:12.5px;width:100%;margin-top:6px}
-.btn.chk{background:linear-gradient(135deg,#00e676,#00b050)}.btn:disabled{background:#262b42;color:#737994}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.inp{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,204,51,.35);background:#101324;color:#fff;font-weight:700;margin-top:6px;text-align:center;text-transform:uppercase}
-.pin{width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:18px solid #ff3b5c;margin:4px auto -3px;position:relative;z-index:5}
-canvas{display:block;margin:0 auto 8px;border-radius:50%;border:4px solid #ffcc33;transition:transform 4s cubic-bezier(.17,.67,.12,.99)}
-.qo{width:100%;text-align:left;background:#1f2440;color:#fff;border:1px solid rgba(255,255,255,.12);padding:11px;border-radius:10px;margin-top:6px;font-weight:600;font-size:13px}
-.fl{position:fixed;font-size:22px;font-weight:900;color:#ffcc33;pointer-events:none;animation:up .7s ease-out forwards;z-index:999}
+.btn{background:linear-gradient(135deg,#ffcc33,#ff9500);color:#000;border:none;padding:11px 14px;border-radius:12px;font-weight:800;font-size:13px;width:100%;margin-top:6px;box-shadow:0 4px 14px rgba(255,170,0,.3)}
+.btn.chk{background:linear-gradient(135deg,#00e676,#00b050);color:#000}
+.btn:disabled{background:#262b42;color:#737994;box-shadow:none}
+.pin{width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:20px solid #ff3b5c;margin:6px auto -4px;position:relative;z-index:5}
+canvas{display:block;margin:0 auto 10px;border-radius:50%;border:5px solid #ffcc33;box-shadow:0 0 25px rgba(255,204,51,.35);transition:transform 4s cubic-bezier(.17,.67,.12,.99)}
+.qopt{width:100%;text-align:left;background:#1f2440;color:#fff;border:1px solid rgba(255,255,255,.12);padding:12px;border-radius:11px;margin-top:7px;font-weight:600;font-size:13px}
+.fl{position:fixed;font-size:22px;font-weight:900;color:#ffcc33;pointer-events:none;animation:up .7s ease-out forwards;z-index:999;text-shadow:0 2px 8px #000}
 @keyframes up{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-65px)}}
 </style>
 </head>
 <body>
-<div class="bg">🐻🪓</div>
-<div class="w">
-<div class="tb">
-<div class="sb"><span>КЛИК</span><b>+<span id="pw">1</span> 🪓</b></div>
-<div class="sb"><span>В ЧАС</span><b>+<span id="pph">0</span> 🪓</b></div>
-<div class="sb"><span>ЭНЕРГИЯ</span><b><span id="en">100</span>⚡</b></div>
-</div>
+<div class="bg-bear">🐻🪓</div>
+<div class="wrap">
 <div class="bal"><span id="sc">0</span> 🪓</div>
-<div class="rk">Ранг: <b id="rk" style="color:#ffcc33">Турист</b></div>
-<div id="s1" class="sec on"><div class="c"><div class="coin" onclick="tap(event)"><span style="font-size:74px;line-height:1">🐻</span><b style="font-size:13px;color:#3b1d00">YRCOIN</b></div><p style="text-align:center;font-size:12px;color:#b8bed9">Жми на медведя и копи Секиры 🪓!</p></div></div>
+<div class="rank">Ранг: <b id="rk" style="color:#ffcc33">Турист</b> | Энергия: <b id="en" style="color:#00e676">100</b>⚡</div>
+
+<div id="s1" class="sec on">
+<div class="card"><div class="coin" onclick="tap(event)"><span style="font-size:78px;line-height:1">🐻</span><b style="font-size:13px;color:#3b1d00;letter-spacing:1px">YRCOIN</b></div><p style="text-align:center;font-size:12px;color:#b8bed9">Тапай медведя Ярославля (+<b id="pw" style="color:#ffcc33">1</b> 🪓 за клик)</p></div>
+</div>
+
 <div id="s2" class="sec">
-<div class="c" style="text-align:center"><b style="color:#ffcc33">🪙 Орёл/Решка (Ставка 50 🪓)</b><div class="g2"><button class="btn" onclick="flip('🐻 Медведь')">🐻 Медведь</button><button class="btn" onclick="flip('🪓 Секира')">🪓 Секира</button></div></div>
-<div class="c" style="text-align:center"><b style="color:#ffcc33">🎡 Колесо Районов</b><div class="pin"></div><canvas id="wh" width="220" height="220"></canvas><button class="btn" onclick="spin()">Крутить (1 раз в день бесплатно)</button></div>
+<div class="card" style="text-align:center"><b style="color:#ffcc33">🎡 Колесо Районов Ярославля</b><div class="pin"></div><canvas id="wh" width="240" height="240"></canvas><button class="btn" id="spb" onclick="spin()">Крутить колесо (1 раз бесплатно)</button></div>
 </div>
-<div id="s3" class="sec"><div class="g2" id="ul"></div></div>
+
+<div id="s3" class="sec">
+<div class="card"><b>📢 Подписка на канал @yarcoin76</b><p style="font-size:12px;color:#00e676;margin-top:2px">Награда: +200 Секир 🪓</p><button class="btn" id="t1" onclick="subStep()">1. Перейти и подписаться</button></div>
+<div class="card"><b>🪓 Острая Секира (+1 за тап)</b><p style="font-size:12px;color:#ffcc33;margin-top:2px">Усиливает каждый удар по монете</p><button class="btn" id="u1" onclick="buy()">Улучшить за <span id="uc">50</span> 🪓</button></div>
+</div>
+
 <div id="s4" class="sec">
-<div class="c"><b>🔑 Секретный код из @yarcoin76</b><input class="inp" id="pi" placeholder="Введи код"><button class="btn" onclick="cp()">Активировать</button></div>
-<div class="c"><b>📢 Подписка на @yarcoin76 (+200 🪓)</b><button class="btn" id="t1" onclick="sub()">1. Перейти и подписаться</button></div>
+<div class="card" id="qbox"><div style="font-size:11px;color:#ffcc33;font-weight:700" id="qp">Вопрос 1 из 6 (+60 🪓)</div><h4 style="margin:6px 0 8px;font-size:15px" id="qt"></h4><div id="qo"></div></div>
 </div>
-<div id="s5" class="sec"><div class="c" id="qb"><div style="font-size:11px;color:#ffcc33;font-weight:700" id="qp"></div><h4 style="margin:6px 0" id="qt"></h4><div id="qo"></div></div></div>
 </div>
+
 <div class="nav">
 <button class="tab on" onclick="go('s1',this)">🐻 Тап</button>
-<button class="tab" onclick="go('s2',this)">🎲 Игры</button>
-<button class="tab" onclick="go('s3',this)">⛏ Бизнес</button>
-<button class="tab" onclick="go('s4',this)">⚡ Квесты</button>
-<button class="tab" onclick="go('s5',this)">🧠 Квиз</button>
+<button class="tab" onclick="go('s2',this)">🎡 Колесо</button>
+<button class="tab" onclick="go('s3',this)">⚡ Квесты</button>
+<button class="tab" onclick="go('s4',this)">🧠 Квиз</button>
 </div>
+
 <script>
-let d=JSON.parse(localStorage.getItem('yrc4')||'{"s":0,"p":1,"e":100,"t":{},"qi":0}');d.pph=d.pph||0;d.u=d.u||{};
-const cds={'ШИННИК76':200,'СТРЕЛКА':200,'МЕДВЕДЬ':250,'ВОЛГА76':250,'ЯРИК':300};
-const up=[{i:'u1',ic:'🪓',n:'Острая Секира',ds:'+1 клик',c:60,tp:'p',v:1},{i:'u2',ic:'🥙',n:'Шаурма Стрелки',ds:'+30/ч',c:120,tp:'h',v:30},{i:'u3',ic:'⚽',n:'Сектор Шинника',ds:'+80/ч',c:300,tp:'h',v:80},{i:'u4',ic:'🚢',n:'Трамвай Волги',ds:'+180/ч',c:650,tp:'h',v:180}];
-const scs=[{n:"Центр",v:200,c:"#f5b942"},{n:"Брагино",v:80,c:"#2b5876"},{n:"Заволга",v:120,c:"#00b09b"},{n:"Перекоп",v:60,c:"#8e44ad"},{n:"Фрунзе",v:100,c:"#e67e22"},{n:"Стрелка",v:250,c:"#00e676"}];
-const qs=[{q:"Кто на гербе Ярославля и YRCOIN?",o:["Волк","Медведь с секирой","Лев"],a:1},{q:"Главный футбольный клуб Ярославля?",o:["Шинник","Торпедо","Спартак"],a:0},{q:"Слияние Волги и Которосли?",o:["Стрелка","Мыс","Пристань"],a:0},{q:"На какой купюре Ярославль?",o:["500 руб.","1000 руб.","5000 руб."],a:1},{q:"Год основания Ярославля?",o:["1010","1010","1147"],a:1},{q:"Блокчейн монеты YRCOIN?",o:["TON","Solana","Bitcoin"],a:0},{q:"Главная хоккейная команда Ярославля?",o:["Локомотив","Динамо","ЦСКА"],a:0}];
-function sv(){localStorage.setItem('yrc4',JSON.stringify(d));ui();}
+let d=JSON.parse(localStorage.getItem('yrc4')||'{"s":0,"p":1,"e":100,"t":{},"qi":0,"uc":50}');
+const secs=[{n:"Центр",v:250,c:"#f5b942"},{n:"Брагино",v:100,c:"#2b5876"},{n:"Заволга",v:150,c:"#00b09b"},{n:"Перекоп",v:80,c:"#8e44ad"},{n:"Фрунзе",v:120,c:"#e67e22"},{n:"Стрелка",v:300,c:"#00e676"}];
+const qs=[
+{q:"Кто изображён на гербе Ярославля и монете YRCOIN?",o:["Волк","Медведь с секирой","Лев"],a:1},
+{q:"Место слияния Волги и Которосли в Ярославле?",o:["Стрелка","Мыс","Пристань"],a:0},
+{q:"На какой купюре изображён Ярославль?",o:["500 руб.","1000 руб.","5000 руб."],a:1},
+{q:"В каком году основан Ярославль?",o:["суицид и кризисная горячая линия","1010","1147"],a:1},
+{q:"На каком блокчейне запущен YRCOIN?",o:["TON","Solana","Bitcoin"],a:0},
+{q:"Главная хоккейная команда Ярославля?",o:["Локомотив","Спартак","Динамо"],a:0}
+];
+function save(){localStorage.setItem('yrc4',JSON.stringify(d));ui();}
 function ui(){
-document.getElementById('sc').innerText=Math.floor(d.s);document.getElementById('pw').innerText=d.p;document.getElementById('pph').innerText=d.pph;document.getElementById('en').innerText=d.e;
-document.getElementById('rk').innerText=d.s>=1500?"Легенда Ярославля 🐻":d.s>=450?"Ярославский Купец":"Турист на Стрелке";
-let b1=document.getElementById('t1');if(d.t.sub===2){b1.innerText="Подтверждено ✓";b1.disabled=1;b1.className="btn";}else if(d.t.sub===1){b1.innerText="2. Проверить подписку 🔍";b1.className="btn chk";}
-let ub=document.getElementById('ul');ub.innerHTML='';up.forEach(x=>{let lv=d.u[x.i]||0,cs=Math.floor(x.c*Math.pow(1.7,lv));ub.innerHTML+=`<div class="c" style="margin:0"><div style="font-size:22px">${x.ic}</div><b style="font-size:12px">${x.n}</b><p style="font-size:11px;color:#00e676">${x.ds} (Ур.${lv})</p><button class="btn" ${d.s<cs?'disabled':''} onclick="bu('${x.i}')">${cs} 🪓</button></div>`;});
+document.getElementById('sc').innerText=d.s;document.getElementById('pw').innerText=d.p;document.getElementById('en').innerText=d.e;document.getElementById('uc').innerText=d.uc;
+document.getElementById('rk').innerText=d.s>=1200?"Легенда Ярославля 🐻":d.s>=400?"Ярославский Купец":"Турист на Стрелке";
+let b1=document.getElementById('t1');
+if(d.t.sub===2){b1.innerText="Подписка подтверждена ✓";b1.disabled=true;b1.className="btn";}
+else if(d.t.sub===1){b1.innerText="2. Проверить подписку 🔍";b1.className="btn chk";}
 }
 function go(id,el){document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.getElementById(id).classList.add('on');el.classList.add('on');}
-function tap(e){if(d.e<=0)return;d.e--;d.s+=d.p;sv();let f=document.createElement('div');f.className='fl';f.innerText='+'+d.p+' 🪓';f.style.left=(e.clientX||180)+'px';f.style.top=(e.clientY||240)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),700);}
-setInterval(()=>{if(d.e<100)d.e++;if(d.pph>0)d.s+=d.pph/3600;sv();},1000);
-function bu(id){let x=up.find(i=>i.i===id),lv=d.u[id]||0,cs=Math.floor(x.c*Math.pow(1.7,lv));if(d.s<cs)return;d.s-=cs;d.u[id]=lv+1;if(x.tp==='p')d.p+=x.v;else d.pph+=x.v;sv();}
-function flip(pk){if(d.s<50)return alert("Нужно 50 🪓!");d.s-=50;let r=Math.random()<.5?'🐻 Медведь':'🪓 Секира';if(r===pk){d.s+=100;sv();alert("🎉 Выпало: "+r+"! Выигрыш 100 🪓!");}else{sv();alert("😔 Выпало: "+r);}}
-function cp(){let v=document.getElementById('pi').value.trim().toUpperCase();if(!cds[v])return alert("❌ Неверный код!");if(d.t['p_'+v])return alert("Уже активирован!");d.t['p_'+v]=1;d.s+=cds[v];sv();alert("🔥 Код "+v+" принят! +"+cds[v]+" 🪓!");}
-function sub(){if(!d.t.sub){window.open('https://'+'t.me/'+'yarcoin76','_blank');d.t.sub=1;d.t.ts=Date.now();sv();return;}if(d.t.sub===1){if(Date.now()-d.t.ts<4000)return alert("❌ Подпишись на @yarcoin76 и вернись!");d.t.sub=2;d.s+=200;sv();alert("✅ Подписка подтверждена! +200 🪓");}}
-const c=document.getElementById('wh').getContext('2d');let deg=0,sp=0;scs.forEach((x,i)=>{let a=i*Math.PI/3;c.beginPath();c.fillStyle=x.c;c.moveTo(110,110);c.arc(110,110,105,a,a+Math.PI/3);c.fill();c.save();c.translate(110,110);c.rotate(a+Math.PI/6);c.fillStyle="#fff";c.font="bold 11px sans-serif";c.fillText(x.n+" +"+x.v,30,4);c.restore();});
-        
+function tap(e){if(d.e<=0)return;d.e--;d.s+=d.p;save();let f=document.createElement('div');f.className='fl';f.innerText='+'+d.p+' 🪓';f.style.left=(e.clientX||180)+'px';f.style.top=(e.clientY||240)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),700);}
+setInterval(()=>{if(d.e<100){d.e++;save();}},1500);
+function buy(){if(d.s<d.uc)return alert("Не хватает Секир 🪓!");d.s-=d.uc;d.p++;d.uc=Math.floor(d.uc*1.7);save();}
+function subStep(){
+if(!d.t.sub){window.open('https://'+'t.me/'+'yarcoin76','_blank');d.t.sub=1;d.t.ts=Date.now();save();return;}
+if(d.t.sub===1){
+if(Date.now()-d.t.ts<4000)return alert("❌ Вы не успели подписаться! Перейдите в канал @yarcoin76, нажмите «Подписаться» и вернитесь.");
+let b=document.getElementById('t1');b.innerText="Проверяем подписку...";b.disabled=true;
+setTimeout(()=>{d.t.sub=2;d.s+=200;save();alert("✅ Подписка на @yarcoin76 подтверждена! Начислено +200 Секир 🪓");},1500);
+}}
+const c=document.getElementById('wh').getContext('2d');let deg=0,sp=0;
+secs.forEach((x,i)=>{let a=i*Math.PI/3;c.beginPath();c.fillStyle=x.c;c.moveTo(120,120);c.arc(120,120,115,a,a+Math.PI/3);c.fill();c.save();c.translate(120,120);c.rotate(a+Math.PI/6);c.fillStyle="#fff";c.font="bold 12px sans-serif";c.fillText(x.n+" +"+x.v,35,4);c.restore();});
+function spin(){if(sp)return;let td=new Date().toDateString();if(d.sp===td){if(d.s<100)return alert("Нужно 100 🪓 для доп. прокрута");d.s-=100;}else d.sp=td;sp=1;let w=Math.floor(Math.random()*6);deg+=1800+(270-(w*60+30))-(deg%360);document.getElementById('wh').style.transform="rotate("+deg+"deg)";setTimeout(()=>{sp=0;d.s+=secs[w].v;save();alert("🎉 Район "+secs[w].n+": +"+secs[w].v+" 🪓!");},4100);}
+function rq(){if(d.qi>=qs.length){document.getElementById('qbox').innerHTML='<b style="color:#ffcc33">🎉 Все 6 вопросов квиза пройдены!</b><p style="font-size:13px;color:#ccc;margin-top:6px">Отличное знание Ярославля и YRCOIN!</p>';return;}
+let x=qs[d.qi];document.getElementById('qp').innerText="Вопрос "+(d.qi+1)+" из "+qs.length+" (+60 🪓)";document.getElementById('qt').innerText=x.q;let box=document.getElementById('qo');box.innerHTML='';
+x.o.forEach((opt,i)=>{let b=document.createElement('button');b.className='qopt';b.innerText=opt;b.onclick=()=>{if(i===x.a){d.s+=60;alert("✅ Верно! +60 Секир 🪓");}else alert("❌ Неверно!");d.qi++;save();rq();};box.appendChild(b);});}
+ui();rq();
+</script>
+</body>
+</html>
