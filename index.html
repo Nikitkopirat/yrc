@@ -1,146 +1,33 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>YRCOIN</title>
-<script src="https://telegram.org"></script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(circle at 50% 0%,#3b1d6e,#12162e 55%,#070913);color:#fff;padding:10px 10px 82px;user-select:none;min-height:100vh}
-.wrap{max-width:450px;margin:0 auto}
-.top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#b8bed9;margin-bottom:4px}
-.badge{background:rgba(255,204,51,.15);border:1px solid #ffcc33;color:#ffcc33;padding:4px 10px;border-radius:20px;font-weight:700}
-.bal{text-align:center;font-size:42px;font-weight:900;color:#ffcc33;text-shadow:0 0 18px rgba(255,180,0,.5)}
-.sub{text-align:center;font-size:12px;color:#00e676;font-weight:700;margin-bottom:8px}
-.card{background:rgba(24,29,52,.92);border:1px solid rgba(255,204,51,.25);border-radius:16px;padding:12px;margin-bottom:8px}
-.coin{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff3a8,#ffaa00 60%,#7a3600);border:5px solid #fff6c2;box-shadow:0 0 35px rgba(255,175,0,.55);margin:6px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.06s}
-.coin:active{transform:scale(.91)}
-.coin.x2{border-color:#ff3b5c;box-shadow:0 0 45px #ff3b5c}
-.ebar{background:#15192e;border-radius:10px;height:12px;overflow:hidden;margin-top:8px}
-.efill{height:100%;background:linear-gradient(90deg,#00c853,#00e676);transition:width .2s}
-.etxt{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-top:4px;color:#cfd6f0}
-.nav{position:fixed;bottom:8px;left:8px;right:8px;max-width:450px;margin:0 auto;display:flex;gap:4px;background:#0f1222;padding:5px;border-radius:16px;border:1px solid rgba(255,204,51,.35);z-index:99}
-.tab{flex:1;padding:9px 2px;border:none;background:transparent;color:#8e96b8;font-weight:800;border-radius:11px;font-size:11px}
-.tab.on{background:linear-gradient(135deg,#ffcc33,#ff8000);color:#000}
-.sec{display:none}.sec.on{display:block}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.btn{background:linear-gradient(135deg,#ffcc33,#ff8800);color:#000;border:none;padding:10px 12px;border-radius:11px;font-weight:800;font-size:12px;width:100%;margin-top:6px}
-.btn.sm{width:auto;margin-top:0;padding:8px 12px;white-space:nowrap}
-.btn.grn{background:linear-gradient(135deg,#00e676,#00b248)}
-.btn.red{background:linear-gradient(135deg,#ff5252,#d50000);color:#fff}
-.btn:disabled{background:#252a42;color:#6c7391}
-.inp{width:100%;background:#13172b;border:1px solid rgba(255,204,51,.35);color:#fff;padding:10px;border-radius:10px;font-size:12px;margin-top:6px;outline:none}
-.qopt{width:100%;text-align:left;background:#1c213d;color:#fff;border:1px solid rgba(255,255,255,.15);padding:11px;border-radius:11px;margin-top:6px;font-weight:600;font-size:13px}
-.fl{position:fixed;font-size:22px;font-weight:900;color:#ffe066;pointer-events:none;animation:up .7s ease-out forwards;z-index:999}
-@keyframes up{100%{opacity:0;transform:translateY(-65px)}}
-.promo{background:#111526;border:1px dashed #00e676;color:#00e676;padding:8px;border-radius:8px;font-family:monospace;font-size:11px;margin-top:6px;user-select:all}
-</style>
-</head>
-<body>
-<div class="wrap">
-<div class="top"><span id="un">🐻 Игрок</span><span class="badge" id="rk" onclick="egg1()">Турист</span></div>
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>YRCOIN</title><script src="https://telegram.org"></script><style>*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;-webkit-tap-highlight-color:transparent}body{background:#12162e;color:#fff;padding:10px 10px 75px;user-select:none}.top{display:flex;justify-content:space-between;font-size:12px;color:#bbb}.bdg{background:#ffcc3322;border:1px solid #ffcc33;color:#ffcc33;padding:3px 9px;border-radius:15px;font-weight:700}.bal{text-align:center;font-size:40px;font-weight:900;color:#ffcc33;margin:4px 0}.sub{text-align:center;font-size:12px;color:#00e676;margin-bottom:8px}.crd{background:#1c2242;border:1px solid #ffcc3344;border-radius:14px;padding:12px;margin-bottom:8px}.cn{width:170px;height:170px;border-radius:50%;background:radial-gradient(#fff3a8,#ff9900);border:5px solid #fff;box-shadow:0 0 30px #ffaa0088;margin:6px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.06s}.cn:active{transform:scale(.9)}.cn.x2{border-color:#ff3b5c;box-shadow:0 0 40px #ff3b5c}.eb{background:#0d1021;height:10px;border-radius:8px;overflow:hidden;margin-top:8px}.ef{height:100%;background:#00e676;transition:.2s}.nav{position:fixed;bottom:8px;left:8px;right:8px;display:flex;gap:4px;background:#0d1021;padding:5px;border-radius:14px;border:1px solid #ffcc3355}.tab{flex:1;padding:8px 2px;border:none;background:0;color:#8e96b8;font-weight:800;border-radius:10px;font-size:11px}.tab.on{background:#ffaa00;color:#000}.sec{display:none}.sec.on{display:block}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.btn{background:#ffaa00;color:#000;border:none;padding:9px 12px;border-radius:10px;font-weight:800;font-size:12px;width:100%;margin-top:6px}.btn.sm{width:auto;margin:0}.btn.grn{background:#00e676}.btn.red{background:#ff3b5c;color:#fff}.btn:disabled{background:#2a3052;color:#666}.inp{width:100%;background:#0d1021;border:1px solid #ffcc3355;color:#fff;padding:9px;border-radius:9px;font-size:12px;margin-top:6px}.qo{width:100%;text-align:left;background:#252c54;color:#fff;border:0;padding:10px;border-radius:9px;margin-top:6px;font-size:13px}.fl{position:fixed;font-size:20px;font-weight:900;color:#ffe066;pointer-events:none;animation:up .6s forwards}@keyframes up{100%{opacity:0;transform:translateY(-60px)}}.pr{background:#0d1021;border:1px dashed #00e676;color:#00e676;padding:7px;border-radius:7px;font-family:monospace;font-size:11px;margin-top:6px;user-select:all}</style></head><body>
+<div class="top"><span id="un">🐻 Игрок</span><span class="bdg" id="rk" onclick="e1()">Турист</span></div>
 <div class="bal"><span id="sc">0</span> 🪓</div>
 <div class="sub">+<span id="pw">1</span>/тап • +<span id="ps">0</span>/сек</div>
-
-<div id="s1" class="sec on">
-<div class="card">
-<div class="coin" id="cn" onclick="tap(event)"><span style="font-size:74px;line-height:1">🐻</span><b style="font-size:13px;color:#3b1d00" onclick="egg2(event)">YRCOIN</b></div>
-<div class="ebar"><div class="efill" id="ef"></div></div>
-<div class="etxt"><span>⚡ <b id="en">100</b>/<b id="me">100</b></span><span>+1⚡/1.5с</span></div>
-<button class="btn red" id="trb" onclick="turbo()">🚀 Турбо x2 на 15 сек</button>
-</div>
-</div>
-
-<div id="s2" class="sec">
-<div class="card row"><div><b>🎁 Бонус дня (<span id="str">0</span>🔥)</b><p style="font-size:11px;color:#00e676">+150 🪓 раз в день</p></div><button class="btn sm grn" id="db" onclick="daily()">Забрать</button></div>
-<div class="card row"><div><b>⚡ Полный заряд</b><p style="font-size:11px;color:#ffcc33">Бесплатно раз в день</p></div><button class="btn sm" id="fb" onclick="fullEn()">Зарядить</button></div>
-<div class="card row"><div><b>📢 Канал @yarcoin76</b><p style="font-size:11px;color:#ffcc33">Награда: +250 🪓</p></div><button class="btn sm" id="t1" onclick="subStep()">Перейти</button></div>
-<div class="card row"><div><b>🤝 Позвать друга</b><p style="font-size:11px;color:#b388ff">Награда: +200 🪓</p></div><button class="btn sm" id="rb" onclick="invite()">Позвать</button></div>
-<div class="card row"><div><b>🪓 Секира (+1/тап)</b><p style="font-size:11px;color:#b8bed9">Ур.<span id="l1">1</span> • <b id="u1">50</b> 🪓</p></div><button class="btn sm" onclick="buy(1)">Купить</button></div>
-<div class="card row"><div><b>🔋 Батарея (+50⚡)</b><p style="font-size:11px;color:#b8bed9">Ур.<span id="l2">1</span> • <b id="u2">80</b> 🪓</p></div><button class="btn sm" onclick="buy(2)">Купить</button></div>
-<div class="card row"><div><b>⚙️ Авто-шахта (+1/с)</b><p style="font-size:11px;color:#b8bed9">Ур.<span id="l3">0</span> • <b id="u3">150</b> 🪓</p></div><button class="btn sm" onclick="buy(3)">Купить</button></div>
-<div class="card"><b>🕵️ Секретный код (пасхалка)</b><div class="row" style="margin-top:4px"><input class="inp" style="margin:0" id="pcd" placeholder="Слово..."><button class="btn sm grn" onclick="egg3()">ОК</button></div></div>
-</div>
-
-<div id="s3" class="sec">
-<div class="card" id="qbox"><div style="font-size:11px;color:#ffcc33;font-weight:800" id="qp"></div><h4 style="margin:6px 0;font-size:15px" id="qt"></h4><div id="qo"></div></div>
-</div>
-
-<div id="s4" class="sec">
-<div class="card"><b>💎 TON-кошелёк</b><input class="inp" id="wal" placeholder="UQ... или EQ..."><button class="btn grn" onclick="saveWal()">Сохранить</button></div>
-<div class="card"><b>🏆 Обмен на призы</b><p style="font-size:11px;color:#b8bed9">Отправь код админу @yarcoin76</p>
-<div class="row" style="margin-top:8px"><div><b>🎫 100 YRCOIN</b><p style="font-size:11px;color:#ffcc33">1 500 🪓</p></div><button class="btn sm" onclick="redeem('100 YRCOIN',1500)">Взять</button></div>
-<div class="row" style="margin-top:8px"><div><b>👑 VIP Ярославля</b><p style="font-size:11px;color:#ffcc33">5 000 🪓</p></div><button class="btn sm" onclick="redeem('VIP',5000)">Взять</button></div>
-<div id="vch"></div>
-</div>
-</div>
-</div>
-
-<div class="nav">
-<button class="tab on" onclick="go('s1',this)">🐻 Тап</button>
-<button class="tab" onclick="go('s2',this)">⚡ Бусты</button>
-<button class="tab" onclick="go('s3',this)">🧠 Квиз</button>
-<button class="tab" onclick="go('s4',this)">🎁 Призы</button>
-</div>
-
+<div id="s1" class="sec on"><div class="crd"><div class="cn" id="cn" onclick="tap(event)"><span style="font-size:70px">🐻</span><b style="color:#3b1d00;font-size:13px" onclick="e2(event)">YRCOIN</b></div><div class="eb"><div class="ef" id="ef"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;margin-top:4px"><span>⚡ <b id="en">100</b>/<b id="me">100</b></span><span>+1⚡/1.5с</span></div><button class="btn red" id="trb" onclick="trb()">🚀 Турбо x2 (15с)</button></div></div>
+<div id="s2" class="sec"><div class="crd row"><div><b>🎁 Бонус дня</b><p style="font-size:11px;color:#00e676">+150 🪓 раз в день</p></div><button class="btn sm grn" id="db" onclick="dly()">Взять</button></div><div class="crd row"><div><b>📢 @yarcoin76</b><p style="font-size:11px;color:#ffcc33">+250 🪓 за подписку</p></div><button class="btn sm" id="t1" onclick="sub()">Перейти</button></div><div class="crd row"><div><b>🪓 Секира (+1/тап)</b><p style="font-size:11px">Ур.<span id="l1">1</span> • <b id="u1">50</b> 🪓</p></div><button class="btn sm" onclick="buy(1)">Купить</button></div><div class="crd row"><div><b>🔋 Батарея (+50⚡)</b><p style="font-size:11px">Ур.<span id="l2">1</span> • <b id="u2">80</b> 🪓</p></div><button class="btn sm" onclick="buy(2)">Купить</button></div><div class="crd row"><div><b>⚙️ Авто-шахта (+1/с)</b><p style="font-size:11px">Ур.<span id="l3">0</span> • <b id="u3">150</b> 🪓</p></div><button class="btn sm" onclick="buy(3)">Купить</button></div><div class="crd"><b>🕵️ Секретный код (пасхалка)</b><div class="row" style="margin-top:4px"><input class="inp" style="margin:0" id="pcd" placeholder="Код..."><button class="btn sm grn" onclick="e3()">ОК</button></div></div></div>
+<div id="s3" class="sec"><div class="crd" id="qb"><div style="font-size:11px;color:#ffcc33" id="qp"></div><h4 style="margin:5px 0" id="qt"></h4><div id="qo"></div></div></div>
+<div id="s4" class="sec"><div class="crd"><b>💎 TON-кошелёк</b><input class="inp" id="wal" placeholder="UQ... или EQ..."><button class="btn grn" onclick="swal()">Сохранить</button></div><div class="crd"><b>🏆 Обмен на призы</b><div class="row" style="margin-top:8px"><div><b>🎫 100 YRCOIN</b><p style="font-size:11px;color:#ffcc33">1 500 🪓</p></div><button class="btn sm" onclick="rdm('100 YRCOIN',1500)">Взять</button></div><div class="row" style="margin-top:8px"><div><b>👑 VIP Ярославля</b><p style="font-size:11px;color:#ffcc33">5 000 🪓</p></div><button class="btn sm" onclick="rdm('VIP',5000)">Взять</button></div><div id="vch"></div></div></div>
+<div class="nav"><button class="tab on" onclick="go('s1',this)">🐻 Тап</button><button class="tab" onclick="go('s2',this)">⚡ Бусты</button><button class="tab" onclick="go('s3',this)">🧠 Квиз</button><button class="tab" onclick="go('s4',this)">🎁 Призы</button></div>
 <script>
-const tg=window.Telegram&&window.Telegram.WebApp;
-if(tg){tg.ready();tg.expand();if(tg.initDataUnsafe&&tg.initDataUnsafe.user)document.getElementById('un').innerText='🐻 '+tg.initDataUnsafe.user.first_name;}
-const vib=t=>{try{if(tg&&tg.HapticFeedback)tg.HapticFeedback.impactOccurred(t);}catch(e){}};
-let def={s:0,p:1,e:100,me:100,ps:0,u1:50,u2:80,u3:150,l1:1,l2:1,l3:0,sub:0,ts:0,ref:0,qi:0,str:0,ld:"",fe:"",w:"",v:"",e1:0,e2:0,c1:0,c2:0,c3:0};
-let d=Object.assign(def,JSON.parse(localStorage.getItem('yrc7')||'{}'));
-let mult=1,tcd=0,k1=0,k2=0;
-
-const qs=[
-{q:"Кто на гербе Ярославля и YRCOIN?",o:"Волк|Медведь с секирой|Лев",a:1},
-{q:"Главный футбольный клуб Ярославля?",o:"Шинник|Локомотив|Спартак",a:0},
-{q:"В каком году основан ФК «Шинник»?",o:"1957|1976|1991",a:0},
-{q:"Домашний стадион «Шинника»?",o:"Арена-2000|Стадион Шинник|Волга",a:1},
-{q:"Место слияния Волги и Которосли?",o:"Стрелка|Мыс|Пристань",a:0},
-{q:"В каком году основан Ярославль?",o:"1010|1147|1205",a:0},
-{q:"На какой купюре изображён Ярославль?",o:"500 руб.|1000 руб.|5000 руб.",a:1},
-{q:"Блокчейн токена YRCOIN?",o:"TON|Solana|Bitcoin",a:0}
-];
-
-function save(){localStorage.setItem('yrc7',JSON.stringify(d));ui();}
-function ui(){
-document.getElementById('sc').innerText=Math.floor(d.s);
-document.getElementById('pw').innerText=d.p*mult;
-document.getElementById('ps').innerText=d.ps;
-document.getElementById('en').innerText=d.e;
-document.getElementById('me').innerText=d.me;
-document.getElementById('ef').style.width=Math.min(100,(d.e/d.me)*100)+'%';
-document.getElementById('rk').innerText=d.s>=5000?"Легенда 76 👑":d.s>=1500?"Купец 💎":d.s>=400?"Стрелка 🐻":"Турист 🎒";
-document.getElementById('u1').innerText=d.u1;document.getElementById('l1').innerText=d.l1;
-document.getElementById('u2').innerText=d.u2;document.getElementById('l2').innerText=d.l2;
-document.getElementById('u3').innerText=d.u3;document.getElementById('l3').innerText=d.l3;
-document.getElementById('str').innerText=d.str;
-let td=new Date().toDateString();
-let db=document.getElementById('db');db.disabled=d.ld===td;db.innerText=d.ld===td?"Готово ✓":"Забрать";
-let fb=document.getElementById('fb');fb.disabled=d.fe===td;fb.innerText=d.fe===td?"Готово ✓":"Зарядить";
-let b1=document.getElementById('t1');
-if(d.sub===2){b1.innerText="Готово ✓";b1.disabled=true;}else if(d.sub===1){b1.innerText="Проверить";b1.className="btn sm grn";}
-let rb=document.getElementById('rb');if(d.ref){rb.innerText="Готово ✓";rb.disabled=true;}
-if(d.w)document.getElementById('wal').value=d.w;
-document.getElementById('vch').innerHTML=d.v?d.v.split(';').map(x=>'<div class="promo">'+x+'</div>').join(''):'';
-}
-Пасхалка #2! +500 🪓");}}
-function egg3(){
-let v=document.getElementById('pcd').value.trim().toUpperCase();
-if(v==="SHINNIK"&&!d.c1){d.c1=1;d.s+=400;vib('heavy');save();alert("⚽ Код SHINNIK! +400 🪓");}
-else if(v==="STRELKA"&&!d.c2){d.c2=1;d.s+=300;vib('heavy');save();alert("🌊 Код STRELKA! +300 🪓");}
-else if(v==="1010"&&!d.c3){d.c3=1;d.s+=500;vib('heavy');save();alert("🏛 Код 1010! +500 🪓");}
-else alert("❌ Неверный или уже введённый код!");
-document.getElementById('pcd').value='';
-}
-function rq(){
-if(d.qi>=qs.length){document.getElementById('qbox').innerHTML='🎉 Все 8 вопросов пройдены!';return;}
-let x=qs[d.qi];document.getElementById('qp').innerText="Вопрос "+(d.qi+1)+" из "+qs.length+" (+75 🪓)";document.getElementById('qt').innerText=x.q;
-let box=document.getElementById('qo');box.innerHTML='';
-x.o.split('|').forEach((o,i)=>{let b=document.createElement('button');b.className='qopt';b.innerText=o;b.onclick=()=>{if(i===x.a){d.s+=75;vib('heavy');alert("✅ Верно! +75 🪓");}else alert("❌ Неверно!");d.qi++;save();rq();};box.appendChild(b);});
-}
+const tg=window.Telegram&&window.Telegram.WebApp;if(tg){tg.ready();tg.expand();if(tg.initDataUnsafe&&tg.initDataUnsafe.user)document.getElementById('un').innerText='🐻 '+tg.initDataUnsafe.user.first_name;}
+let d=Object.assign({s:0,p:1,e:100,me:100,ps:0,u1:50,u2:80,u3:150,l1:1,l2:1,l3:0,sub:0,ts:0,qi:0,ld:"",w:"",v:"",e1:0,e2:0,c1:0,c2:0,c3:0},JSON.parse(localStorage.getItem('yrc8')||'{}')),ml=1,cd=0,k1=0,k2=0;
+const qs=[{q:"Кто на гербе Ярославля?",o:"Волк|Медведь с секирой|Лев",a:1},{q:"Главный футбольный клуб Ярославля?",o:"Шинник|Локомотив|Спартак",a:0},{q:"Год основания ФК «Шинник»?",o:"1957|1976|1991",a:0},{q:"Домашний стадион «Шинника»?",o:"Арена-2000|Стадион Шинник|Волга",a:1},{q:"Слияние Волги и Которосли?",o:"Стрелка|Мыс|Пристань",a:0},{q:"Год основания Ярославля?",o:"1010|1147|1205",a:0},{q:"На какой купюре Ярославль?",o:"500 руб.|1000 руб.|5000 руб.",a:1},{q:"Блокчейн YRCOIN?",o:"TON|Solana|Bitcoin",a:0}];
+function sv(){localStorage.setItem('yrc8',JSON.stringify(d));ui();}
+function ui(){document.getElementById('sc').innerText=Math.floor(d.s);document.getElementById('pw').innerText=d.p*ml;document.getElementById('ps').innerText=d.ps;document.getElementById('en').innerText=d.e;document.getElementById('me').innerText=d.me;document.getElementById('ef').style.width=(d.e/d.me*100)+'%';document.getElementById('rk').innerText=d.s>=5000?"Легенда 76 👑":d.s>=1500?"Купец 💎":d.s>=400?"Стрелка 🐻":"Турист 🎒";document.getElementById('u1').innerText=d.u1;document.getElementById('l1').innerText=d.l1;document.getElementById('u2').innerText=d.u2;document.getElementById('l2').innerText=d.l2;document.getElementById('u3').innerText=d.u3;document.getElementById('l3').innerText=d.l3;let td=new Date().toDateString(),db=document.getElementById('db');db.disabled=d.ld===td;db.innerText=d.ld===td?"Готово ✓":"Взять";let b1=document.getElementById('t1');if(d.sub===2){b1.innerText="Готово ✓";b1.disabled=true;}else if(d.sub===1){b1.innerText="Проверить";b1.className="btn sm grn";}if(d.w)document.getElementById('wal').value=d.w;document.getElementById('vch').innerHTML=d.v?d.v.split(';').map(x=>'<div class="pr">'+x+'</div>').join(''):'';}
+function go(i,el){document.querySelectorAll('.sec,.tab').forEach(x=>x.classList.remove('on'));document.getElementById(i).classList.add('on');el.classList.add('on');}
+function tap(e){if(d.e<=0)return;try{tg.HapticFeedback.impactOccurred('medium');}catch(x){}let g=d.p*ml;d.e--;d.s+=g;sv();let f=document.createElement('div');f.className='fl';f.innerText='+'+g;f.style.left=(e.clientX||180)+'px';f.style.top=(e.clientY||240)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),600);}
+function trb(){if(cd>Date.now())return alert("Жди!");ml=2;cd=Date.now()+60000;document.getElementById('cn').classList.add('x2');let b=document.getElementById('trb');b.disabled=true;b.innerText="🔥 x2!";ui();setTimeout(()=>{ml=1;document.getElementById('cn').classList.remove('x2');b.innerText="⏳ Жди...";ui();},15000);setTimeout(()=>{b.disabled=false;b.innerText="🚀 Турбо x2 (15с)";},60000);}
+setInterval(()=>{if(d.e<d.me){d.e++;sv();}},1500);setInterval(()=>{if(d.ps>0){d.s+=d.ps;sv();}},1000);
+function buy(n){if(n===1&&d.s>=d.u1){d.s-=d.u1;d.l1++;d.p++;d.u1=Math.floor(d.u1*1.6);}else if(n===2&&d.s>=d.u2){d.s-=d.u2;d.l2++;d.me+=50;d.e=d.me;d.u2=Math.floor(d.u2*1.6);}else if(n===3&&d.s>=d.u3){d.s-=d.u3;d.l3++;d.ps++;d.u3=Math.floor(d.u3*1.6);}else return alert("Мало 🪓!");sv();}
+function dly(){let td=new Date().toDateString();if(d.ld===td)return;d.ld=td;d.s+=150;sv();alert("🔥 +150 🪓!");}
+function sub(){if(!d.sub){window.open('https://t.me');d.sub=1;d.ts=Date.now();sv();return;}if(Date.now()-d.ts<4000)return alert("Подпишись на @yarcoin76!");d.sub=2;d.s+=250;sv();alert("✅ +250 🪓!");}
+function swal(){let v=document.getElementById('wal').value.trim();if(v.length<10)return alert("Введи TON-адрес!");d.w=v;sv();alert("✅ Сохранено!");}
+function rdm(n,c){if(!d.w)return alert("Сначала TON-кошелёк!");if(d.s<c)return alert("Мало 🪓!");d.s-=c;let code="YAR-"+Math.random().toString(36).substring(2,6).toUpperCase()+" | "+n;d.v=d.v?code+";"+d.v:code;sv();alert("🎁 Отправь код в @yarcoin76!");}
+function e1(){if(!d.e1&&++k1>=5){d.e1=1;d.s+=300;sv();alert("🕵️ Пасхалка #1! +300 🪓");}}
+function e2(e){e.stopPropagation();if(!d.e2&&++k2>=7){d.e2=1;d.s+=500;sv();alert("🕵️ Пасхалка #2! +500 🪓");}}
+function e3(){let v=document.getElementById('pcd').value.trim().toUpperCase();if(v==="SHINNIK"&&!d.c1){d.c1=1;d.s+=400;sv();alert("⚽ +400 🪓!");}else if(v==="STRELKA"&&!d.c2){d.c2=1;d.s+=300;sv();alert("🌊 +300 🪓!");}else if(v==="1010"&&!d.c3){d.c3=1;d.s+=500;sv();alert("🏛 +500 🪓!");}else alert("❌ Неверно!");document.getElementById('pcd').value='';}
+function rq(){if(d.qi>=qs.length){document.getElementById('qb').innerHTML='<b style="color:#ffcc33">🎉 Все 8 вопросов пройдены!</b>';return;}let x=qs[d.qi];document.getElementById('qp').innerText="Вопрос "+(d.qi+1)+" из "+qs.length+" (+75 🪓)";document.getElementById('qt').innerText=x.q;let box=document.getElementById('qo');box.innerHTML='';x.o.split('|').forEach((o,i)=>{let b=document.createElement('button');b.className='qo';b.innerText=o;b.onclick=()=>{if(i===x.a){d.s+=75;alert("✅ +75 🪓!");}else alert("❌ Неверно!");d.qi++;sv();rq();};box.appendChild(b);});}
 ui();rq();
+</script></body></html>
 
   
   
