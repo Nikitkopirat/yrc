@@ -2,100 +2,125 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>YRCOIN</title>
+<script src="https://telegram.org"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif}
-body{background:radial-gradient(circle at 50% 15%,#2b1f47 0%,#101324 55%,#070811 100%);color:#fff;padding:12px 12px 84px;user-select:none;min-height:100vh;overflow-x:hidden}
-.bg-bear{position:fixed;top:42%;left:50%;transform:translate(-50%,-50%);font-size:270px;opacity:0.06;pointer-events:none;z-index:0;filter:drop-shadow(0 0 30px #ffcc33)}
-.wrap{position:relative;z-index:1}
-.bal{text-align:center;font-size:44px;font-weight:900;background:linear-gradient(180deg,#fff7c2,#ffcc33 50%,#ff8800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(255,190,0,.45));margin:6px 0}
-.rank{text-align:center;font-size:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,204,51,.25);padding:5px 12px;border-radius:20px;display:table;margin:0 auto 12px}
-.card{background:rgba(24,28,48,.88);backdrop-filter:blur(8px);border:1px solid rgba(255,204,51,.28);border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
-.coin{width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff099,#ffaa00 65%,#8a4200);border:6px solid #fff5b8;box-shadow:0 0 45px rgba(255,180,0,.55),inset 0 0 20px rgba(0,0,0,.4);margin:10px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.08s}
-.coin:active{transform:scale(.92)}
-.nav{position:fixed;bottom:10px;left:10px;right:10px;display:flex;gap:4px;background:rgba(18,21,38,.96);padding:6px;border-radius:16px;border:1px solid rgba(255,204,51,.3);z-index:99}
-.tab{flex:1;padding:9px 2px;border:none;background:transparent;color:#9aa0bd;font-weight:800;border-radius:11px;font-size:11px}
-.tab.on{background:linear-gradient(135deg,#ffcc33,#ff8800);color:#000;box-shadow:0 4px 12px rgba(255,160,0,.4)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(circle at 50% 0%,#3b1d6e 0%,#12162e 55%,#070913 100%);color:#fff;padding:10px 10px 84px;user-select:none;min-height:100vh;overflow-x:hidden}
+.wrap{max-width:460px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#b8bed9;margin-bottom:4px}
+.badge{background:rgba(255,204,51,.15);border:1px solid rgba(255,204,51,.4);color:#ffcc33;padding:4px 10px;border-radius:20px;font-weight:700;cursor:pointer}
+.bal{text-align:center;font-size:44px;font-weight:900;background:linear-gradient(180deg,#fff9d6,#ffcc33 50%,#ff7700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:2px 0}
+.sub{text-align:center;font-size:12px;color:#00e676;font-weight:700;margin-bottom:8px}
+.card{background:rgba(24,29,52,.9);border:1px solid rgba(255,204,51,.25);border-radius:16px;padding:12px;margin-bottom:8px}
+.coin{width:185px;height:185px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff3a8,#ffaa00 60%,#7a3600);border:5px solid #fff6c2;box-shadow:0 0 35px rgba(255,175,0,.55);margin:6px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.06s}
+.coin:active{transform:scale(.91)}
+.coin.x2{border-color:#ff3b5c;box-shadow:0 0 45px #ff3b5c}
+.ebar{background:#15192e;border-radius:10px;height:12px;overflow:hidden;margin-top:8px}
+.efill{height:100%;background:linear-gradient(90deg,#00c853,#00e676);transition:width .2s}
+.etxt{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-top:4px;color:#cfd6f0}
+.nav{position:fixed;bottom:8px;left:8px;right:8px;max-width:460px;margin:0 auto;display:flex;gap:4px;background:#0f1222;padding:5px;border-radius:16px;border:1px solid rgba(255,204,51,.35);z-index:99}
+.tab{flex:1;padding:9px 2px;border:none;background:transparent;color:#8e96b8;font-weight:800;border-radius:11px;font-size:11px;cursor:pointer}
+.tab.on{background:linear-gradient(135deg,#ffcc33,#ff8000);color:#000}
 .sec{display:none}.sec.on{display:block}
-.btn{background:linear-gradient(135deg,#ffcc33,#ff9500);color:#000;border:none;padding:11px 14px;border-radius:12px;font-weight:800;font-size:13px;width:100%;margin-top:6px;box-shadow:0 4px 14px rgba(255,170,0,.3)}
-.btn.chk{background:linear-gradient(135deg,#00e676,#00b050);color:#000}
-.btn:disabled{background:#262b42;color:#737994;box-shadow:none}
-.pin{width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:20px solid #ff3b5c;margin:6px auto -4px;position:relative;z-index:5}
-canvas{display:block;margin:0 auto 10px;border-radius:50%;border:5px solid #ffcc33;box-shadow:0 0 25px rgba(255,204,51,.35);transition:transform 4s cubic-bezier(.17,.67,.12,.99)}
-.qopt{width:100%;text-align:left;background:#1f2440;color:#fff;border:1px solid rgba(255,255,255,.12);padding:12px;border-radius:11px;margin-top:7px;font-weight:600;font-size:13px}
-.fl{position:fixed;font-size:22px;font-weight:900;color:#ffcc33;pointer-events:none;animation:up .7s ease-out forwards;z-index:999;text-shadow:0 2px 8px #000}
-@keyframes up{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-65px)}}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.btn{background:linear-gradient(135deg,#ffcc33,#ff8800);color:#000;border:none;padding:10px 12px;border-radius:11px;font-weight:800;font-size:12px;width:100%;margin-top:6px;cursor:pointer}
+.btn.sm{width:auto;margin-top:0;padding:8px 12px;white-space:nowrap}
+.btn.grn{background:linear-gradient(135deg,#00e676,#00b248)}
+.btn.red{background:linear-gradient(135deg,#ff5252,#d50000);color:#fff}
+.btn:disabled{background:#252a42;color:#6c7391}
+.inp{width:100%;background:#13172b;border:1px solid rgba(255,204,51,.35);color:#fff;padding:10px;border-radius:10px;font-size:12px;margin-top:6px;outline:none}
+.qopt{width:100%;text-align:left;background:#1c213d;color:#fff;border:1px solid rgba(255,255,255,.12);padding:11px;border-radius:11px;margin-top:6px;font-weight:600;font-size:13px;cursor:pointer}
+.fl{position:fixed;font-size:22px;font-weight:900;color:#ffe066;pointer-events:none;animation:up .7s ease-out forwards;z-index:999;text-shadow:0 2px 8px #000}
+@keyframes up{100%{opacity:0;transform:translateY(-65px)}}
+.promo{background:#111526;border:1px dashed #00e676;color:#00e676;padding:8px;border-radius:8px;font-family:monospace;font-size:12px;margin-top:6px;user-select:all}
 </style>
 </head>
 <body>
-<div class="bg-bear">🐻🪓</div>
 <div class="wrap">
+<div class="top"><span id="un">🐻 Игрок</span><span class="badge" id="rk" onclick="egg1()">Турист</span></div>
 <div class="bal"><span id="sc">0</span> 🪓</div>
-<div class="rank">Ранг: <b id="rk" style="color:#ffcc33">Турист</b> | Энергия: <b id="en" style="color:#00e676">100</b>⚡</div>
+<div class="sub">+<span id="pw">1</span>/тап • +<span id="ps">0</span>/сек</div>
 
 <div id="s1" class="sec on">
-<div class="card"><div class="coin" onclick="tap(event)"><span style="font-size:78px;line-height:1">🐻</span><b style="font-size:13px;color:#3b1d00;letter-spacing:1px">YRCOIN</b></div><p style="text-align:center;font-size:12px;color:#b8bed9">Тапай медведя Ярославля (+<b id="pw" style="color:#ffcc33">1</b> 🪓 за клик)</p></div>
+<div class="card">
+<div class="coin" id="cn" onclick="tap(event)"><span style="font-size:78px;line-height:1">🐻</span><b style="font-size:13px;color:#3b1d00;letter-spacing:1px" onclick="egg2(event)">YRCOIN</b></div>
+<div class="ebar"><div class="efill" id="ef"></div></div>
+<div class="etxt"><span>⚡ <b id="en">100</b>/<b id="me">100</b></span><span>+1⚡/1.5с</span></div>
+<button class="btn red" id="trb" onclick="turbo()">🚀 Турбо x2 на 15 сек</button>
+</div>
 </div>
 
 <div id="s2" class="sec">
-<div class="card" style="text-align:center"><b style="color:#ffcc33">🎡 Колесо Районов Ярославля</b><div class="pin"></div><canvas id="wh" width="240" height="240"></canvas><button class="btn" id="spb" onclick="spin()">Крутить колесо (1 раз бесплатно)</button></div>
+<div class="card row"><div><b>🎁 Бонус дня (<span id="str">0</span>🔥)</b><p style="font-size:11px;color:#00e676">+150 🪓 каждый день</p></div><button class="btn sm grn" id="db" onclick="daily()">Забрать</button></div>
+<div class="card row"><div><b>⚡ Полный заряд энергии</b><p style="font-size:11px;color:#ffcc33">Бесплатно 1 раз в день</p></div><button class="btn sm" id="fb" onclick="fullEn()">Зарядить</button></div>
+<div class="card row"><div><b>📢 Канал @yarcoin76</b><p style="font-size:11px;color:#ffcc33">Награда: +250 🪓</p></div><button class="btn sm" id="t1" onclick="subStep()">Перейти</button></div>
+<div class="card row"><div><b>🤝 Позвать друга</b><p style="font-size:11px;color:#b388ff">Награда: +200 🪓</p></div><button class="btn sm" id="rb" onclick="invite()">Позвать</button></div>
+<div class="card row"><div><b>🪓 Секира (+1/тап)</b><p style="font-size:11px;color:#b8bed9">Ур.<span id="lv1">1</span> • <b id="uc1">50</b> 🪓</p></div><button class="btn sm" onclick="buy(1)">Купить</button></div>
+<div class="card row"><div><b>🔋 Батарея (+50⚡)</b><p style="font-size:11px;color:#b8bed9">Ур.<span id="lv2">1</span> • <b id="uc2">80</b> 🪓</p></div><button class="btn sm" onclick="buy(2)">Купить</button></div>
+<div class="card row"><div><b>⚙️ Авто-шахта (+1/с)</b><p style="font-size:11px;color:#b8bed9">Ур.<span id="lv3">0</span> • <b id="uc3">150</b> 🪓</p></div><button class="btn sm" onclick="buy(3)">Купить</button></div>
+<div class="card"><b>🕵️ Секретный код (пасхалка)</b><div class="row" style="margin-top:4px"><input class="inp" style="margin:0" id="pcd" placeholder="Введи слово..."><button class="btn sm grn" onclick="egg3()">Ввод</button></div></div>
 </div>
 
 <div id="s3" class="sec">
-<div class="card"><b>📢 Подписка на канал @yarcoin76</b><p style="font-size:12px;color:#00e676;margin-top:2px">Награда: +200 Секир 🪓</p><button class="btn" id="t1" onclick="subStep()">1. Перейти и подписаться</button></div>
-<div class="card"><b>🪓 Острая Секира (+1 за тап)</b><p style="font-size:12px;color:#ffcc33;margin-top:2px">Усиливает каждый удар по монете</p><button class="btn" id="u1" onclick="buy()">Улучшить за <span id="uc">50</span> 🪓</button></div>
+<div class="card" id="qbox"><div style="font-size:11px;color:#ffcc33;font-weight:800" id="qp"></div><h4 style="margin:6px 0;font-size:15px" id="qt"></h4><div id="qo"></div></div>
 </div>
 
 <div id="s4" class="sec">
-<div class="card" id="qbox"><div style="font-size:11px;color:#ffcc33;font-weight:700" id="qp">Вопрос 1 из 6 (+60 🪓)</div><h4 style="margin:6px 0 8px;font-size:15px" id="qt"></h4><div id="qo"></div></div>
+<div class="card"><b>💎 TON-кошелёк</b><input class="inp" id="wal" placeholder="UQ... или EQ..."><button class="btn grn" onclick="saveWal()">Сохранить</button></div>
+<div class="card"><b>🏆 Обмен на призы</b><p style="font-size:11px;color:#b8bed9;margin-top:2px">Отправь код ваучера админу @yarcoin76</p>
+<div class="row" style="margin-top:8px"><div><b>🎫 100 YRCOIN</b><p style="font-size:11px;color:#ffcc33">1 500 🪓</p></div><button class="btn sm" onclick="redeem('100 YRCOIN',1500)">Взять</button></div>
+<div class="row" style="margin-top:8px"><div><b>👑 VIP Ярославля</b><p style="font-size:11px;color:#ffcc33">5 000 🪓</p></div><button class="btn sm" onclick="redeem('VIP-статус',5000)">Взять</button></div>
+<div id="vch"></div>
+</div>
 </div>
 </div>
 
 <div class="nav">
 <button class="tab on" onclick="go('s1',this)">🐻 Тап</button>
-<button class="tab" onclick="go('s2',this)">🎡 Колесо</button>
-<button class="tab" onclick="go('s3',this)">⚡ Квесты</button>
-<button class="tab" onclick="go('s4',this)">🧠 Квиз</button>
+<button class="tab" onclick="go('s2',this)">⚡ Бусты</button>
+<button class="tab" onclick="go('s3',this)">🧠 Квиз</button>
+<button class="tab" onclick="go('s4',this)">🎁 Призы</button>
 </div>
 
 <script>
-let d=JSON.parse(localStorage.getItem('yrc4')||'{"s":0,"p":1,"e":100,"t":{},"qi":0,"uc":50}');
-const secs=[{n:"Центр",v:250,c:"#f5b942"},{n:"Брагино",v:100,c:"#2b5876"},{n:"Заволга",v:150,c:"#00b09b"},{n:"Перекоп",v:80,c:"#8e44ad"},{n:"Фрунзе",v:120,c:"#e67e22"},{n:"Стрелка",v:300,c:"#00e676"}];
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();if(tg.initDataUnsafe?.user)document.getElementById('un').innerText='🐻 '+tg.initDataUnsafe.user.first_name;}
+const vib=t=>{try{tg?.HapticFeedback?.impactOccurred(t)}catch(e){}};
+let def={s:0,p:1,e:100,me:100,ps:0,uc:[50,80,150],lv:[1,1,0],t:{},qi:0,str:0,ld:"",fe:"",w:"",v:[],eg:{}};
+let d=Object.assign(def,JSON.parse(localStorage.getItem('yrc6')||'{}'));
+if(!Array.isArray(d.uc))d.uc=[50,80,150];
+if(!Array.isArray(d.lv))d.lv=[1,1,0];
+let mult=1,tcd=0,c1=0,c2=0;
+
 const qs=[
-{q:"Кто изображён на гербе Ярославля и монете YRCOIN?",o:["Волк","Медведь с секирой","Лев"],a:1},
-{q:"Место слияния Волги и Которосли в Ярославле?",o:["Стрелка","Мыс","Пристань"],a:0},
+{q:"Кто изображён на гербе Ярославля и YRCOIN?",o:["Волк","Медведь с секирой","Лев"],a:1},
+{q:"Главный футбольный клуб Ярославля?",o:["Шинник","Локомотив","Текстильщик"],a:0},
+{q:"В каком году основан ФК «Шинник»?",o:["1957","1976","1991"],a:0},
+{q:"Как называется домашний стадион «Шинника»?",o:["Арена-2000","Стадион Шинник","Волга-Арена"],a:1},
+{q:"Место слияния Волги и Которосли?",o:["Стрелка","Мыс","Пристань"],a:0},
+{q:"В каком году основан Ярославль?",o:["1010","1147","emergency services"],a:0},
 {q:"На какой купюре изображён Ярославль?",o:["500 руб.","1000 руб.","5000 руб."],a:1},
-{q:"В каком году основан Ярославль?",o:["суицид и кризисная горячая линия","1010","1147"],a:1},
-{q:"На каком блокчейне запущен YRCOIN?",o:["TON","Solana","Bitcoin"],a:0},
-{q:"Главная хоккейная команда Ярославля?",o:["Локомотив","Спартак","Динамо"],a:0}
+{q:"На каком блокчейне запущен YRCOIN?",o:["TON","Solana","Bitcoin"],a:0}
 ];
-function save(){localStorage.setItem('yrc4',JSON.stringify(d));ui();}
+
+function save(){localStorage.setItem('yrc6',JSON.stringify(d));ui();}
 function ui(){
-document.getElementById('sc').innerText=d.s;document.getElementById('pw').innerText=d.p;document.getElementById('en').innerText=d.e;document.getElementById('uc').innerText=d.uc;
-document.getElementById('rk').innerText=d.s>=1200?"Легенда Ярославля 🐻":d.s>=400?"Ярославский Купец":"Турист на Стрелке";
+document.getElementById('sc').innerText=Math.floor(d.s);
+document.getElementById('pw').innerText=d.p*mult;
+document.getElementById('ps').innerText=d.ps;
+document.getElementById('en').innerText=d.e;
+document.getElementById('me').innerText=d.me;
+document.getElementById('ef').style.width=Math.min(100,(d.e/d.me)*100)+'%';
+document.getElementById('rk').innerText=d.s>=5000?"Легенда 76 👑":d.s>=1500?"Купец 💎":d.s>=400?"Житель Стрелки 🐻":"Турист 🎒";
+for(let i=0;i<3;i++){document.getElementById('uc'+(i+1)).innerText=d.uc[i];document.getElementById('lv'+(i+1)).innerText=d.lv[i];}
+document.getElementById('str').innerText=d.str;
+let td=new Date().toDateString();
+let db=document.getElementById('db');db.disabled=d.ld===td;db.innerText=d.ld===td?"Готово ✓":"Забрать";
+let fb=document.getElementById('fb');fb.disabled=d.fe===td;fb.innerText=d.fe===td?"Готово ✓":"Зарядить";
 let b1=document.getElementById('t1');
-if(d.t.sub===2){b1.innerText="Подписка подтверждена ✓";b1.disabled=true;b1.className="btn";}
-else if(d.t.sub===1){b1.innerText="2. Проверить подписку 🔍";b1.className="btn chk";}
-}
-function go(id,el){document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.getElementById(id).classList.add('on');el.classList.add('on');}
-function tap(e){if(d.e<=0)return;d.e--;d.s+=d.p;save();let f=document.createElement('div');f.className='fl';f.innerText='+'+d.p+' 🪓';f.style.left=(e.clientX||180)+'px';f.style.top=(e.clientY||240)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),700);}
-setInterval(()=>{if(d.e<100){d.e++;save();}},1500);
-function buy(){if(d.s<d.uc)return alert("Не хватает Секир 🪓!");d.s-=d.uc;d.p++;d.uc=Math.floor(d.uc*1.7);save();}
-function subStep(){
-if(!d.t.sub){window.open('https://'+'t.me/'+'yarcoin76','_blank');d.t.sub=1;d.t.ts=Date.now();save();return;}
-if(d.t.sub===1){
-if(Date.now()-d.t.ts<4000)return alert("❌ Вы не успели подписаться! Перейдите в канал @yarcoin76, нажмите «Подписаться» и вернитесь.");
-let b=document.getElementById('t1');b.innerText="Проверяем подписку...";b.disabled=true;
-setTimeout(()=>{d.t.sub=2;d.s+=200;save();alert("✅ Подписка на @yarcoin76 подтверждена! Начислено +200 Секир 🪓");},1500);
-}}
-const c=document.getElementById('wh').getContext('2d');let deg=0,sp=0;
-secs.forEach((x,i)=>{let a=i*Math.PI/3;c.beginPath();c.fillStyle=x.c;c.moveTo(120,120);c.arc(120,120,115,a,a+Math.PI/3);c.fill();c.save();c.translate(120,120);c.rotate(a+Math.PI/6);c.fillStyle="#fff";c.font="bold 12px sans-serif";c.fillText(x.n+" +"+x.v,35,4);c.restore();});
-function spin(){if(sp)return;let td=new Date().toDateString();if(d.sp===td){if(d.s<100)return alert("Нужно 100 🪓 для доп. прокрута");d.s-=100;}else d.sp=td;sp=1;let w=Math.floor(Math.random()*6);deg+=1800+(270-(w*60+30))-(deg%360);document.getElementById('wh').style.transform="rotate("+deg+"deg)";setTimeout(()=>{sp=0;d.s+=secs[w].v;save();alert("🎉 Район "+secs[w].n+": +"+secs[w].v+" 🪓!");},4100);}
-function rq(){if(d.qi>=qs.length){document.getElementById('qbox').innerHTML='<b style="color:#ffcc33">🎉 Все 6 вопросов квиза пройдены!</b><p style="font-size:13px;color:#ccc;margin-top:6px">Отличное знание Ярославля и YRCOIN!</p>';return;}
-let x=qs[d.qi];document.getElementById('qp').innerText="Вопрос "+(d.qi+1)+" из "+qs.length+" (+60 🪓)";document.getElementById('qt').innerText=x.q;let box=document.getElementById('qo');box.innerHTML='';
-x.o.forEach((opt,i)=>{let b=document.createElement('button');b.className='qopt';b.innerText=opt;b.onclick=()=>{if(i===x.a){d.s+=60;alert("✅ Верно! +60 Секир 🪓");}else alert("❌ Неверно!");d.qi++;save();rq();};box.appendChild(b);});}
-ui();rq();
-</script>
-</body>
-</html>
+if(d.t.sub===2){b1.innerText="Готово ✓";b1.disabled=true;}else if(d.t.sub===1){b1.innerText="Проверить";b1.className="btn sm grn";}
+let rb=document.getElementById('rb');if(d.t.ref){rb.innerText="Готово ✓";rb.disabled=true;}
+if(d.w)document.getElementById('wal').value=d.w;
+  
