@@ -125,5 +125,22 @@ let rb=document.getElementById('rb');if(d.ref){rb.innerText="Готово ✓";r
 if(d.w)document.getElementById('wal').value=d.w;
 document.getElementById('vch').innerHTML=d.v?d.v.split(';').map(x=>'<div class="promo">'+x+'</div>').join(''):'';
 }
+Пасхалка #2! +500 🪓");}}
+function egg3(){
+let v=document.getElementById('pcd').value.trim().toUpperCase();
+if(v==="SHINNIK"&&!d.c1){d.c1=1;d.s+=400;vib('heavy');save();alert("⚽ Код SHINNIK! +400 🪓");}
+else if(v==="STRELKA"&&!d.c2){d.c2=1;d.s+=300;vib('heavy');save();alert("🌊 Код STRELKA! +300 🪓");}
+else if(v==="1010"&&!d.c3){d.c3=1;d.s+=500;vib('heavy');save();alert("🏛 Код 1010! +500 🪓");}
+else alert("❌ Неверный или уже введённый код!");
+document.getElementById('pcd').value='';
+}
+function rq(){
+if(d.qi>=qs.length){document.getElementById('qbox').innerHTML='🎉 Все 8 вопросов пройдены!';return;}
+let x=qs[d.qi];document.getElementById('qp').innerText="Вопрос "+(d.qi+1)+" из "+qs.length+" (+75 🪓)";document.getElementById('qt').innerText=x.q;
+let box=document.getElementById('qo');box.innerHTML='';
+x.o.split('|').forEach((o,i)=>{let b=document.createElement('button');b.className='qopt';b.innerText=o;b.onclick=()=>{if(i===x.a){d.s+=75;vib('heavy');alert("✅ Верно! +75 🪓");}else alert("❌ Неверно!");d.qi++;save();rq();};box.appendChild(b);});
+}
+ui();rq();
 
+  
   
